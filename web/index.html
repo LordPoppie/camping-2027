@@ -100,6 +100,9 @@ button,input,textarea,select{font:inherit;color:inherit}
 
 /* ---------- form ---------- */
 .q{border-top:2px dashed rgba(59,35,20,.25);padding-block:22px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:12px 28px}
+.q.missing{background:color-mix(in srgb, var(--tomato) 9%, transparent);border-radius:16px;box-shadow:inset 4px 0 0 var(--tomato);padding-inline:14px}
+.q.missing .q-num{color:var(--tomato);font-weight:700}
+.q.missing .q-num::after{content:" · nog invullen"}
 .q:first-of-type{border-top:0;padding-top:4px}
 .q-label{display:flex;flex-direction:column;gap:4px}
 .q-num{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
@@ -702,7 +705,7 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
       </div>
 
       <div class="q">
-        <div class="q-label"><span class="q-num">Vraag 9</span><h3>Wat moet de camping hebben?</h3><small>Optioneel. Dit helpt straks bij het kiezen.</small></div>
+        <div class="q-label"><span class="q-num">Vraag 9</span><h3>Wat moet de camping hebben?</h3><small>Kies er minstens één, of typ zelf iets. Dit helpt straks bij het kiezen.</small></div>
         <div class="q-body">
           <div class="choices" id="wants" role="group" aria-label="Wensen voor de camping">
             <button type="button" class="chip" data-v="zwembad">Zwembad</button>
@@ -983,8 +986,30 @@ $("#form").addEventListener("submit", async e => {
   e.preventDefault();
   const info = $("#saveInfo");
   const people = F.people.map(p => ({ n: p.n.trim().slice(0, 30), kid: p.kid })).filter(p => p.n);
-  if (!people.length) { info.textContent = "Vul eerst bij vraag 1 minstens één naam in."; $("#person-0").focus(); return; }
-  if (!F.going) { info.textContent = "Geef bij vraag 2 aan of jullie meegaan."; return; }
+  // alles verplicht behalve vraag 11; wie niet meegaat hoeft alleen naam en ja/nee in te vullen
+  const goingOn = F.going !== "nee";
+  const missing = [
+    [1, !people.length],
+    [2, !F.going],
+    [4, goingOn && !F.home.trim()],
+    [5, goingOn && !F.abroad.length],
+    [6, goingOn && !F.vibe],
+    [7, goingOn && !F.stays.length],
+    [8, goingOn && !F.gear.length],
+    [9, goingOn && !F.wants.length && !F.wantsOther.trim()],
+    [10, goingOn && !Object.values(F.weeks).some(v => v === "top" || v === "kan")],
+  ].filter(([, miss]) => miss).map(([n]) => n);
+  $$("#form .q").forEach(q => q.classList.remove("missing"));
+  if (missing.length) {
+    const qs = $$("#form .q");
+    missing.forEach(n => { const q = qs.find(q => q.querySelector(".q-num").textContent === "Vraag " + n); if (q) q.classList.add("missing"); });
+    const hint = { 4: "je woonplaats", 9: "minstens één wens", 10: "minstens één week die top uitkomt of kan" };
+    const list = missing.map(n => hint[n] ? `${n} (${hint[n]})` : String(n));
+    info.textContent = `Bijna! Vul nog in: vraag ${list.length > 1 ? list.slice(0, -1).join(", ") + " en " + list[list.length - 1] : list[0]}.`;
+    const first = $("#form .q.missing");
+    if (first) first.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+    return;
+  }
   if (!db || !uid) { info.textContent = "Check eerst in met je naam en kampcode. Je kaart blijft in deze browser bewaard."; return; }
   if (!canWrite) { info.textContent = "Je hebt alleen leesrechten. Vraag de organisator om je uit te nodigen als bewerker."; return; }
   const btn = $("#saveBtn"); btn.disabled = true; info.textContent = "Bezig met stempelen…";
@@ -999,7 +1024,9 @@ $("#form").addEventListener("submit", async e => {
     await db.doc("guests/" + uid).set({ names: people.map(p => p.n), going: F.going, updatedAt: body.updatedAt });
     if (people.length !== F.people.length) { F.people = people.map(p => ({ ...p })); paintPeople(); }
     dirty = false; try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
-    info.innerHTML = '<span class="toast">Gestempeld!</span> Je staat op het prikbord. Je kunt je kaart altijd nog aanpassen.';
+    info.innerHTML = F.going === "nee"
+      ? '<span class="toast">Gestempeld!</span> Jammer dat je er niet bij bent. Bedenk je je, pas dan gewoon je kaart aan.'
+      : '<span class="toast">Gestempeld!</span> Je staat op het prikbord. Je kunt je kaart altijd nog aanpassen.';
   } catch (err) {
     if (err && (err.code === "invalid_argument")) {
       canWrite = false;
