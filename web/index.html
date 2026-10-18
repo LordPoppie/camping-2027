@@ -280,12 +280,19 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
 .gate-card label{font-weight:800;margin-top:4px}
 .gate-card .text-in{max-width:none}
 .gate-card .btn{align-self:flex-start;margin-top:4px}
+.gate-fields{display:flex;flex-direction:column;gap:8px}
+.gate-fields small,.new-box small{color:var(--ink-soft);font-size:13px;line-height:1.4}
+.gate-card .pin{font-family:var(--mono);font-size:26px;letter-spacing:.5em;text-align:center;max-width:200px}
+.new-box{background:var(--sun-soft);border:2px solid var(--ink);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.new-box p{margin:0;color:var(--ink) !important}
+.gate-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .gate-err{min-height:1.2em;color:var(--tomato) !important;font-weight:600;font-size:14px}
 .gate{transition:opacity .45s ease .75s}
 .gate.opening{opacity:0}
 .gate.opening .arm{transform:rotate(-80deg)}
 .gate.opening .gate-card{transition:transform .5s ease .7s;transform:translateY(30px) scale(.97)}
 .checked{margin:-14px auto 0;text-align:center;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.linkish{background:none;border:0;padding:0;color:var(--sea);text-decoration:underline;cursor:pointer;font:inherit}
 .checked button{background:none;border:0;padding:0;color:var(--sea);text-decoration:underline;cursor:pointer;font:inherit}
 
 @media (prefers-reduced-motion:no-preference){
@@ -555,17 +562,29 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
     <div class="barrier" aria-hidden="true"><span class="post"></span><span class="arm"></span></div>
     <form class="gate-card" id="gateForm" novalidate>
       <span class="eyebrow">Receptie · even inchecken</span>
-      <h2>Welkom op de camping!</h2>
-      <p id="gateMsg">Vul je e-mailadres in. Je krijgt een mail met een inloglink, geen wachtwoord nodig. Alleen de organisatie ziet je adres.</p>
-      <label for="gateEmail">E-mailadres</label>
-      <input class="text-in" type="email" id="gateEmail" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.nl" required>
-      <div id="codeWrap" hidden style="display:flex;flex-direction:column;gap:6px">
-        <label for="gateCode">Code uit de mail</label>
-        <input class="text-in" id="gateCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 cijfers" style="text-align:center;font-size:24px;letter-spacing:.3em">
-        <button type="button" class="chip" id="gateRestart" style="align-self:flex-start">Ander e-mailadres</button>
+      <h2 id="gateTitle">Welkom op de camping!</h2>
+      <p id="gateMsg">Wie ben jij? Vul je naam in en je kampcode van 4 cijfers.</p>
+      <div id="nameMode" class="gate-fields">
+        <label for="gateName">Je naam</label>
+        <input class="text-in" id="gateName" maxlength="40" autocomplete="username" placeholder="Bijv. Toos">
+        <label for="gatePin">Kampcode</label>
+        <input class="text-in pin" id="gatePin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="current-password" placeholder="4 cijfers">
+        <small>Eerste keer? Verzin dan zelf 4 cijfers en onthoud ze goed. Daarmee check je later weer in om je kaart te wijzigen of te stemmen.</small>
+      </div>
+      <div id="newMode" class="new-box" hidden>
+        <p>We kennen nog niemand die <b id="newName"></b> heet. Ben je nieuw? Dan maken we een gastenkaart voor je aan met deze naam en kampcode.</p>
+        <small>Al eerder ingecheckt? Ga terug en kijk hoe je je naam toen schreef.</small>
+      </div>
+      <div id="mailMode" class="gate-fields" hidden>
+        <label for="gateEmail">E-mailadres van de organisatie</label>
+        <input class="text-in" type="email" id="gateEmail" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.nl">
+        <small>Je krijgt een mail met een inloglink. Daarna zie je het volledige overzicht op het prikbord.</small>
       </div>
       <p class="gate-err" id="gateErr" role="alert"></p>
-      <button class="btn" type="submit" id="gateBtn">Stuur inloglink</button>
+      <div class="gate-actions">
+        <button class="btn" type="submit" id="gateBtn">Inchecken</button>
+        <button type="button" class="chip" id="gateBack" hidden>Terug</button>
+      </div>
     </form>
   </div>
 </div>
@@ -750,11 +769,12 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
     <p style="margin:0 auto;max-width:56ch;color:var(--ink-soft)">Zodra iedereen zijn kaart heeft gestempeld, kiezen we hier samen een paar campings en data uit. Dan kun je via deze zelfde link stemmen.</p>
   </section>
 
+  <p class="foot"><button type="button" id="orgLogin" class="linkish">Organisatie-login</button></p>
   <p class="foot">Schoolvakanties 2027 volgens Rijksoverheid en ANWB. De zomervakantie ligt vast. Voorjaars-, mei- en herfstvakantie zijn adviesdata; scholen kunnen afwijken.</p>
 </main>
 
 <script type="module">
-import { db as store, auth, makeUser, DEMO } from "./backend.js";
+import { db as store, kamp, orgAuth, makeUser, DEMO } from "./backend.js";
 (() => {
 "use strict";
 const $ = (s, r=document) => r.querySelector(s);
@@ -965,7 +985,7 @@ $("#form").addEventListener("submit", async e => {
   const people = F.people.map(p => ({ n: p.n.trim().slice(0, 30), kid: p.kid })).filter(p => p.n);
   if (!people.length) { info.textContent = "Vul eerst bij vraag 1 minstens één naam in."; $("#person-0").focus(); return; }
   if (!F.going) { info.textContent = "Geef bij vraag 2 aan of jullie meegaan."; return; }
-  if (!db || !uid) { info.textContent = "Log eerst in bovenaan de pagina. Je kaart blijft in deze browser bewaard."; return; }
+  if (!db || !uid) { info.textContent = "Check eerst in met je naam en kampcode. Je kaart blijft in deze browser bewaard."; return; }
   if (!canWrite) { info.textContent = "Je hebt alleen leesrechten. Vraag de organisator om je uit te nodigen als bewerker."; return; }
   const btn = $("#saveBtn"); btn.disabled = true; info.textContent = "Bezig met stempelen…";
   const body = {
@@ -1108,11 +1128,11 @@ async function renderBoard() {
   });
 }
 
-/* ---------- inloggen ---------- */
+/* ---------- inchecken ---------- */
 const reduced = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
-let email = null;
 const gate = $("#gate");
 const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+let me = null, mode = "name";
 const play = () => {
   document.body.classList.remove("play");
   void document.body.offsetWidth;
@@ -1120,56 +1140,69 @@ const play = () => {
 };
 function showChecked() {
   const c = $("#checked");
-  if (!email) { c.hidden = true; return; }
+  if (!me) { c.hidden = true; return; }
   c.hidden = false;
-  c.innerHTML = `Ingelogd als ${esc(email)} · <button type="button" id="logout">uitloggen</button>`;
-  $("#logout").addEventListener("click", async () => { await auth.signOut(); location.reload(); });
+  c.innerHTML = `Ingecheckt als ${esc(me.name)}${isOwner ? " · organisatie" : ""} · <button type="button" id="logout">uitchecken</button>`;
+  $("#logout").addEventListener("click", async () => { await kamp.logout(); location.reload(); });
 }
 function openGate() {
   gate.classList.add("opening");
   setTimeout(() => { gate.hidden = true; gate.classList.remove("opening"); window.scrollTo(0, 0); play(); }, reduced ? 0 : 1250);
 }
-let codeStep = false;
-function resetGate() {
-  codeStep = false;
-  $("#codeWrap").hidden = true; $("#gateEmail").readOnly = false; $("#gateCode").value = "";
-  $("#gateBtn").textContent = "Stuur inloglink"; $("#gateBtn").hidden = false; $("#gateErr").textContent = "";
-  $$("#codeWrap label, #codeWrap input").forEach(el => el.hidden = false);
-  $("#gateMsg").textContent = "Vul je e-mailadres in. Je krijgt een mail met een inloglink, geen wachtwoord nodig. Alleen de organisatie ziet je adres.";
-  $("#gateEmail").focus();
+function setMode(m) {
+  mode = m;
+  $("#nameMode").hidden = m !== "name";
+  $("#newMode").hidden = m !== "new";
+  $("#mailMode").hidden = m !== "mail" && m !== "mailSent";
+  $("#gateErr").textContent = "";
+  $("#gateBtn").hidden = m === "mailSent";
+  $("#gateBack").hidden = m === "name";
+  $("#gateTitle").textContent = m.startsWith("mail") ? "Organisatie-login" : m === "new" ? "Nieuw op de camping?" : "Welkom op de camping!";
+  $("#gateBtn").textContent = m === "new" ? "Ja, maak mijn kaart aan" : m === "mail" ? "Stuur inloglink" : "Inchecken";
+  $("#gateMsg").textContent = m === "name" ? "Wie ben jij? Vul je naam in en je kampcode van 4 cijfers."
+    : m === "new" ? "Even checken voordat we je inschrijven."
+    : m === "mail" ? "Alleen voor de organisatie: log in met je e-mail om alle antwoorden te zien."
+    : `Check je mail (${$("#gateEmail").value.trim()}) en tik op de link. Je komt dan terug op de camping.`;
+  if (m === "name") $("#gateName").focus(); else if (m === "mail") $("#gateEmail").focus();
 }
-$("#gateRestart").addEventListener("click", resetGate);
+$("#gatePin").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); });
+$("#gateBack").addEventListener("click", () => {
+  if (mode.startsWith("mail") && me) { gate.hidden = true; setMode("name"); return; }
+  setMode("name");
+});
+$("#orgLogin").addEventListener("click", () => { gate.classList.remove("opening"); gate.hidden = false; setMode("mail"); });
 $("#gateForm").addEventListener("submit", async e => {
   e.preventDefault();
   const err = $("#gateErr"), btn = $("#gateBtn");
   err.textContent = "";
-  const v = $("#gateEmail").value.trim();
-  if (!codeStep) {
-    if (!isEmail(v)) { err.textContent = "Dat lijkt geen geldig e-mailadres. Controleer het even."; $("#gateEmail").focus(); return; }
+  if (mode === "mail") {
+    const v = $("#gateEmail").value.trim();
+    if (!isEmail(v)) { err.textContent = "Dat lijkt geen geldig e-mailadres."; return; }
     btn.disabled = true;
-    const res = await auth.signIn(v);
+    const res = await orgAuth.signIn(v);
     btn.disabled = false;
-    if (res && res.error) { err.textContent = "De mail versturen lukte niet. Probeer het over een minuut opnieuw."; return; }
-    if (res && res.demo) { await begin(await auth.session()); openGate(); return; }
-    // De standaardmail van Supabase bevat alleen een link. Met een eigen mailserver kan er ook een code in;
-    // zet dan SHOW_CODE op true.
-    const SHOW_CODE = false;
-    $("#gateEmail").readOnly = true;
-    $("#gateMsg").textContent = `We hebben een mail gestuurd naar ${v}. Tik op de link in die mail, het liefst op dit apparaat. Je komt dan vanzelf terug op de camping.`;
-    if (!SHOW_CODE) { btn.hidden = true; $("#codeWrap").hidden = false; $("#gateCode").closest("#codeWrap").querySelectorAll("label,input").forEach(el => el.hidden = true); return; }
-    codeStep = true;
-    $("#codeWrap").hidden = false; btn.textContent = "Inchecken";
-    $("#gateCode").focus();
+    if (res && res.demo) { err.textContent = "In de demo-modus ben je al organisatie."; return; }
+    if (res && res.error) { err.textContent = "Dat lukte niet. Is dit het adres waarmee je organisator bent?"; return; }
+    setMode("mailSent");
     return;
   }
-  const code = $("#gateCode").value.replace(/\D/g, "");
-  if (code.length !== 6) { err.textContent = "Typ de 6 cijfers uit de mail."; return; }
+  const name = $("#gateName").value.trim();
+  const pin = $("#gatePin").value;
+  if (!name) { err.textContent = "Vul je naam in."; $("#gateName").focus(); return; }
+  if (!/^[0-9]{4}$/.test(pin)) { err.textContent = "Een kampcode is precies 4 cijfers."; $("#gatePin").focus(); return; }
   btn.disabled = true;
-  const { data, error } = await auth.verifyCode(v, code);
+  let res;
+  try { res = await kamp.login(name, pin, mode === "new"); }
+  catch (x) { res = { status: "error" }; }
   btn.disabled = false;
-  if (error || !data || !data.session) { err.textContent = "Die code klopt niet of is verlopen. Kies 'Ander e-mailadres' om een nieuwe mail te krijgen."; return; }
-  await begin(data.session);
-  openGate();
+  if (res.status === "ok") { await begin(res.member); openGate(); return; }
+  if (res.status === "unknown") { $("#newName").textContent = name; setMode("new"); return; }
+  err.textContent = {
+    wrong_pin: "Die kampcode hoort niet bij deze naam. Vergeten? Vraag de organisatie om een nieuwe.",
+    locked: "Te vaak een verkeerde kampcode. Probeer het over een kwartier opnieuw.",
+    bad_name: "Die naam is te lang of leeg.",
+    bad_pin: "Een kampcode is precies 4 cijfers.",
+  }[res.status] || "De receptie is even onbereikbaar. Probeer het zo nog eens.";
 });
 
 /* ---------- opstarten ---------- */
@@ -1177,16 +1210,16 @@ paintForm();
 renderBoard();
 
 let started = false;
-async function begin(session) {
-  if (started || !session) return;
+async function begin(member) {
+  if (started || !member) return;
   started = true;
+  me = member;
   db = store;
-  user = makeUser(session);
+  user = makeUser(member);
   uid = await user.id();
-  email = session.user.email;
-  showChecked();
-  status("ok", `${DEMO ? "<b>Demo-modus</b>: config.js is nog niet ingevuld, alles blijft in deze browser. " : ""}Welkom! Vul je kaart in en druk onderaan op <b>Stempel mijn kaart</b>.`);
   isOwner = await user.isOwner();
+  showChecked();
+  status("ok", `${DEMO ? "<b>Demo-modus</b>: config.js is nog niet ingevuld, alles blijft in deze browser. " : ""}Welkom, ${esc(member.name)}! Vul je kaart in en druk onderaan op <b>Stempel mijn kaart</b>.`);
   const numberCard = () => {
     const ids = Object.keys(GUESTS).sort();
     if (ids.includes(uid)) $("#cardNo").textContent = String(ids.indexOf(uid) + 1).padStart(3, "0");
@@ -1196,6 +1229,7 @@ async function begin(session) {
     const mine = await db.doc("responses/" + uid).get();
     if (mine.exists && !dirty) { F = normalize(mine.data()); paintForm(); $("#saveInfo").textContent = "Je kaart is opgeslagen. Pas gerust iets aan en stempel opnieuw."; }
   } catch (e) {}
+  if (!F.people[0].n) { F.people[0].n = member.name; paintPeople(); }
   const failed = () => status("warn", "Het prikbord kon niet worden geladen. Herlaad de pagina om het opnieuw te proberen.");
   db.collection("guests").onSnapshot(snap => {
     const next = {};
@@ -1212,20 +1246,14 @@ async function begin(session) {
       ALL = next;
       renderBoard();
     }, failed);
-    db.collection("contacts").onSnapshot(snap => {
-      const next = {};
-      snap.docs.forEach(d => { if (d.exists) next[d.id] = d.data().email; });
-      EMAILS = next;
-      renderBoard();
-    }, () => {});
   }
 }
 
 (async () => {
-  auth.onAuth(s => { if (s && !started) { begin(s); if (!gate.hidden) openGate(); } });
-  const s = await auth.session();
-  if (s) { await begin(s); play(); }
-  else { gate.hidden = false; status("warn", "Log in met je e-mailadres om je kaart in te vullen."); }
+  orgAuth.onAuth((event) => { if (event === "SIGNED_IN" && started && !isOwner) location.reload(); });
+  const m = await kamp.me();
+  if (m) { await begin(m); play(); }
+  else { gate.hidden = false; setMode("name"); status("warn", "Check in met je naam en kampcode om je kaart in te vullen."); }
 })();
 })();
 </script>
