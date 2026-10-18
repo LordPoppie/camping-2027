@@ -773,7 +773,7 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
   </section>
 
   <p class="foot"><button type="button" id="orgLogin" class="linkish">Organisatie-login</button></p>
-  <p class="foot">Schoolvakanties 2027 volgens Rijksoverheid en ANWB. De zomervakantie ligt vast. Voorjaars-, mei- en herfstvakantie zijn adviesdata; scholen kunnen afwijken.</p>
+  <p class="foot">Schoolvakanties 2027 volgens Rijksoverheid en ANWB. De zomervakantie ligt vast. De meivakantie is een adviesdatum; scholen kunnen afwijken.</p>
 </main>
 
 <script type="module">
@@ -789,7 +789,8 @@ const MONTHS = ["jan","feb","mrt","apr","mei","jun","jul","aug","sep","okt","nov
 const MONTHS_LONG = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 const D = s => new Date(s + "T12:00:00Z");
 const WEEKS = [];
-for (let n = 6; n <= 43; n++) {
+// april t/m augustus: weken waarvan de donderdag in die maanden valt (wk 13 t/m 34)
+for (let n = 13; n <= 34; n++) {
   const mon = new Date(Date.UTC(2027, 0, 4 + 7 * (n - 1), 12));
   const sun = new Date(mon.getTime() + 6 * 864e5);
   const thu = new Date(mon.getTime() + 3 * 864e5);
@@ -997,7 +998,7 @@ $("#form").addEventListener("submit", async e => {
     [7, goingOn && !F.stays.length],
     [8, goingOn && !F.gear.length],
     [9, goingOn && !F.wants.length && !F.wantsOther.trim()],
-    [10, goingOn && !Object.values(F.weeks).some(v => v === "top" || v === "kan")],
+    [10, goingOn && !WEEKS.some(w => F.weeks[w.key] === "top" || F.weeks[w.key] === "kan")],
   ].filter(([, miss]) => miss).map(([n]) => n);
   $$("#form .q").forEach(q => q.classList.remove("missing"));
   if (missing.length) {
