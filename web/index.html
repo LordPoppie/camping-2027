@@ -4,7 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7746a">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* ---------- stempel-feest ---------- */
+.party-ov{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  background:rgba(59,35,20,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .3s}
+.party-ov.out{opacity:0}
+.party-card{position:relative;z-index:2;width:min(420px,100%);background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);
+  padding:30px 24px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.party-card h2{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;color:var(--tomato);text-shadow:2px 2px 0 var(--sun-soft);margin:0}
+.party-card p{margin:0;color:var(--ink-soft);font-size:16px}
+.party-card .btn{margin-top:6px}
+.rubber{border:4px solid var(--tomato);border-radius:14px;color:var(--tomato);padding:8px 18px 6px;transform:rotate(-8deg);display:flex;flex-direction:column;align-items:center;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(217,65,43,.05) 3px 4px);mix-blend-mode:multiply}
+.rubber span{font-family:var(--display);font-size:34px;line-height:1.05;letter-spacing:.02em}
+.rubber small{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.sad .rubber{border-color:var(--rain);color:var(--rain)}
+.bit{position:absolute;top:-40px;z-index:1;display:block;pointer-events:none}
+.bit.loaf{width:34px;height:11px;border-radius:6px;border:1.5px solid var(--ink);background:repeating-linear-gradient(115deg,var(--crust) 0 6px,var(--crumb) 6px 8px)}
+.bit.tent{width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid var(--sunset)}
+.bit.sun{width:18px;height:18px;border-radius:50%;background:var(--mustard);border:1.5px solid var(--ink)}
+.bit.star{width:18px;height:18px;background:var(--sun-soft);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.bit.flag{width:16px;height:22px;background:linear-gradient(90deg,#2b4fa2 33%,#fffaf0 33% 66%,var(--tomato) 66%);border:1.5px solid var(--ink)}
+@media (prefers-reduced-motion:no-preference){
+  .party-ov{animation:fadeIn .25s both}
+  .party-card{animation:cardPop .5s cubic-bezier(.3,1.6,.5,1) both}
+  .rubber{animation:stampDown .55s .25s cubic-bezier(.2,.9,.3,1.3) both}
+  .bit{animation-name:fall;animation-timing-function:cubic-bezier(.3,.1,.6,1);animation-fill-mode:both}
+}
+.bit{animation-iteration-count:1}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes cardPop{from{transform:scale(.6);opacity:0}}
+@keyframes stampDown{0%{transform:rotate(-8deg) scale(3.2);opacity:0}60%{transform:rotate(-8deg) scale(.92);opacity:1}100%{transform:rotate(-8deg) scale(1)}}
+@keyframes fall{from{transform:translateY(0) rotate(0)}to{transform:translateY(calc(100vh + 80px)) rotate(var(--rot))}}
+@media (prefers-reduced-motion:reduce){.bit{display:none}}
+</style>
 <title>Camping De Gouden Baguette</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,6 +193,17 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
 .hint b{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:12px;display:block;color:var(--sea)}
 
 /* calendar */
+.cal-tools{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:14px}
+.legend-pick{display:inline-flex;gap:6px;align-items:center}
+#cal .wk{cursor:default}
+.wk-pick{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px}
+.wk-pick button{cursor:pointer;border:1.5px solid var(--ink);border-radius:8px;background:#fff;font:inherit;font-size:13px;font-weight:600;padding:5px 2px;
+  display:inline-flex;gap:5px;align-items:center;justify-content:center;transition:transform .1s}
+.wk-pick button:hover{transform:translateY(-1px)}
+.wk-pick button .dot{width:10px;height:10px}
+.wk-pick button[data-s="top"][aria-pressed="true"]{background:var(--mustard);box-shadow:2px 2px 0 var(--ink)}
+.wk-pick button[data-s="kan"][aria-pressed="true"]{background:var(--sea);color:var(--card);box-shadow:2px 2px 0 var(--ink)}
+.wk-pick button[data-s="nee"][aria-pressed="true"]{background:var(--rain);color:var(--card);box-shadow:2px 2px 0 var(--ink)}
 .brushes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .brushes > span{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
 .brush{cursor:pointer;border:2px solid var(--ink);border-radius:12px;padding:6px 12px;background:#fff;font-weight:600;display:inline-flex;gap:6px;align-items:center}
@@ -726,14 +771,13 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
       </div>
 
       <div class="q">
-        <div class="q-label"><span class="q-num">Vraag 10</span><h3>Welke weken komen je goed uit?</h3><small>Kies een kleur en tik op de weken. Nog een keer tikken haalt de kleur weg.</small></div>
+        <div class="q-label"><span class="q-num">Vraag 10</span><h3>Welke weken komen je goed uit?</h3><small>Kies per week: komt top uit, kan ook of kan echt niet. Nog een keer tikken haalt je keuze weg.</small></div>
         <div class="q-body">
-          <div class="brushes" id="brushes" role="group" aria-label="Kleur kiezen">
-            <span>Kleur:</span>
-            <button type="button" class="brush" data-s="top" aria-pressed="true"><i class="dot top"></i>Komt top uit</button>
-            <button type="button" class="brush" data-s="kan" aria-pressed="false"><i class="dot kan"></i>Kan ook</button>
-            <button type="button" class="brush" data-s="nee" aria-pressed="false"><i class="dot nee"></i>Kan echt niet</button>
-            <button type="button" class="brush ghost" id="clearWeeks">Kalender leegmaken</button>
+          <div class="cal-tools">
+            <span class="legend-pick"><i class="dot top"></i>Top = komt top uit</span>
+            <span class="legend-pick"><i class="dot kan"></i>Kan = kan ook</span>
+            <span class="legend-pick"><i class="dot nee"></i>Niet = kan echt niet</span>
+            <button type="button" class="linkish" id="clearWeeks">Alles wissen</button>
           </div>
           <div class="legend">
             <span class="sv"><i class="on">N</i><i class="on">M</i><i class="on">Z</i></span> schoolvakantie per regio (noord, midden, zuid)
@@ -864,7 +908,6 @@ const normalize = d => {
 const joinNames = ns => ns.length <= 1 ? (ns[0] || "") : ns.slice(0, -1).join(", ") + " & " + ns[ns.length - 1];
 let F = blank();
 let dirty = false;
-let brush = "top";
 const DRAFT_KEY = "gb-draft-2027";
 try { const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); if (d && typeof d === "object") { F = normalize(d); dirty = true; } } catch (e) {}
 const saveDraft = () => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(F)); } catch (e) {} };
@@ -883,12 +926,19 @@ function weekCell(w, inner, attrs = "") {
   }).join("");
   return `<button type="button" class="wk" data-k="${w.key}" ${attrs}><span class="no">wk ${w.n}</span><span class="range">${fmtRange(w)}</span>${inner}<span class="tags">${tags}<span class="sv">${sv}</span></span></button>`;
 }
+// formulier: geen knop om de hele week, maar drie keuzeknoppen erin
+function pickCell(w) {
+  const html = weekCell(w, '<span class="mark" aria-hidden="true"></span>');
+  const pick = `<span class="wk-pick" role="group" aria-label="Week ${w.n}, ${fmtRange(w)}">${[["top", "Top"], ["kan", "Kan"], ["nee", "Niet"]]
+    .map(([v, l]) => `<button type="button" data-s="${v}" aria-pressed="false"><i class="dot ${v}"></i>${l}</button>`).join("")}</span>`;
+  return html.replace('<button type="button" class="wk"', '<div class="wk"').replace(/<\/button>$/, pick + "</div>");
+}
 function monthsHTML(cellFn) {
   const groups = {};
   WEEKS.forEach(w => (groups[w.month] ||= []).push(w));
   return Object.entries(groups).map(([m, ws]) => `<div class="month"><h4>${MONTHS_LONG[m]}</h4><div class="weeks">${ws.map(cellFn).join("")}</div></div>`).join("");
 }
-$("#cal").innerHTML = monthsHTML(w => weekCell(w, '<span class="mark" aria-hidden="true"></span>'));
+$("#cal").innerHTML = monthsHTML(pickCell);
 
 function paintPeople() {
   const one = F.people.length === 1;
@@ -925,7 +975,7 @@ function paintWeeks() {
   $$("#cal .wk").forEach(b => {
     const s = F.weeks[b.dataset.k] || "";
     b.dataset.s = s;
-    b.setAttribute("aria-label", `Week ${b.dataset.k.slice(-2)}: ${s === "top" ? "komt top uit" : s === "kan" ? "kan ook" : s === "nee" ? "kan niet" : "niet ingevuld"}`);
+    $$(".wk-pick button", b).forEach(x => x.setAttribute("aria-pressed", String(x.dataset.s === s)));
   });
 }
 
@@ -965,15 +1015,11 @@ $("#wantsOther").addEventListener("input", e => { F.wantsOther = e.target.value;
 $("#note").addEventListener("input", e => { F.note = e.target.value; touch(); });
 $("#days").addEventListener("input", e => { F.days = Number(e.target.value); touch(); paintSliders(); });
 $("#drive").addEventListener("input", e => { F.driveHours = Number(e.target.value); touch(); paintSliders(); });
-$("#brushes").addEventListener("click", e => {
-  const b = e.target.closest(".brush[data-s]"); if (!b) return;
-  brush = b.dataset.s; $$("#brushes .brush[data-s]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-});
 $("#clearWeeks").addEventListener("click", () => { F.weeks = {}; touch(); paintWeeks(); });
 $("#cal").addEventListener("click", e => {
-  const b = e.target.closest(".wk"); if (!b) return;
-  const k = b.dataset.k;
-  if (F.weeks[k] === brush) delete F.weeks[k]; else F.weeks[k] = brush;
+  const btn = e.target.closest(".wk-pick button"); if (!btn) return;
+  const k = btn.closest(".wk").dataset.k, v = btn.dataset.s;
+  if (F.weeks[k] === v) delete F.weeks[k]; else F.weeks[k] = v;
   F.weeks = { ...F.weeks }; touch(); paintWeeks();
 });
 
@@ -1024,13 +1070,14 @@ $("#form").addEventListener("submit", async e => {
     await db.doc("guests/" + uid).set({ names: people.map(p => p.n), going: F.going, updatedAt: body.updatedAt });
     if (people.length !== F.people.length) { F.people = people.map(p => ({ ...p })); paintPeople(); }
     dirty = false; try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    celebrate(F.going);
     info.innerHTML = F.going === "nee"
       ? '<span class="toast">Gestempeld!</span> Jammer dat je er niet bij bent. Bedenk je je, pas dan gewoon je kaart aan.'
       : '<span class="toast">Gestempeld!</span> Je staat op het prikbord. Je kunt je kaart altijd nog aanpassen.';
   } catch (err) {
     if (err && (err.code === "invalid_argument")) {
       canWrite = false;
-      info.textContent = "Opslaan is geweigerd: je hebt alleen leesrechten. Vraag de organisator om je uit te nodigen als bewerker.";
+      info.textContent = "Je bent niet meer ingecheckt. Herlaad de pagina en check opnieuw in; wat je hebt ingevuld blijft bewaard.";
     } else if (err && err.code === "unavailable") {
       info.textContent = "De receptie is even onbereikbaar. Probeer het over een paar seconden opnieuw.";
     } else {
@@ -1038,6 +1085,32 @@ $("#form").addEventListener("submit", async e => {
     }
   } finally { btn.disabled = false; }
 });
+
+/* ---------- stempel-feest ---------- */
+function celebrate(going) {
+  const nee = going === "nee";
+  const ov = document.createElement("div");
+  ov.className = "party-ov" + (nee ? " sad" : "");
+  ov.setAttribute("role", "dialog");
+  ov.setAttribute("aria-label", "Gastenkaart gestempeld");
+  const bits = nee ? "" : Array.from({ length: 46 }, (_, i) => {
+    const kind = ["loaf", "tent", "sun", "star", "flag"][i % 5];
+    const left = Math.random() * 100, delay = Math.random() * 0.9, dur = 2.2 + Math.random() * 1.8, rot = Math.round(Math.random() * 720 - 360);
+    return `<i class="bit ${kind}" style="left:${left}%;animation-delay:${delay}s;animation-duration:${dur}s;--rot:${rot}deg"></i>`;
+  }).join("");
+  ov.innerHTML = `${bits}
+    <div class="party-card">
+      <div class="rubber"><span>${nee ? "Jammer!" : "Gestempeld"}</span><small>Camping De Gouden Baguette · 2027</small></div>
+      <h2>${nee ? "Dommage!" : "Formidable!"}</h2>
+      <p>${nee ? "Jammer dat je er niet bij bent. Bedenk je je, pas dan gewoon je kaart aan." : "Je gastenkaart is binnen. Je staat op het prikbord, à bientôt op de camping!"}</p>
+      <button type="button" class="btn">${nee ? "Oké" : "Naar het prikbord"}</button>
+    </div>`;
+  document.body.appendChild(ov);
+  const close = () => { ov.classList.add("out"); setTimeout(() => ov.remove(), 350); if (!nee) $("#prikbord").scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
+  $(".btn", ov).addEventListener("click", close);
+  ov.addEventListener("click", e => { if (e.target === ov) close(); });
+  $(".btn", ov).focus();
+}
 
 /* ---------- prikbord ---------- */
 let renderToken = 0;
