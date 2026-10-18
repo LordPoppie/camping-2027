@@ -285,7 +285,8 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
 .gate-card .btn{align-self:flex-start;margin-top:4px}
 .gate-fields{display:flex;flex-direction:column;gap:8px}
 .gate-fields small,.new-box small{color:var(--ink-soft);font-size:13px;line-height:1.4}
-.gate-card .pin{font-family:var(--mono);font-size:26px;letter-spacing:.5em;text-align:center;max-width:200px}
+.gate-card .pin{font-family:var(--mono);font-size:26px;letter-spacing:.4em;text-indent:.4em;text-align:center;max-width:200px}
+.gate-card .pin::placeholder{color:var(--ink-soft);opacity:.6}
 .new-box{background:var(--sun-soft);border:2px solid var(--ink);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .new-box p{margin:0;color:var(--ink) !important}
 .gate-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -569,9 +570,9 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
       <p id="gateMsg">Wie ben jij? Vul je naam in en je kampcode van 4 cijfers.</p>
       <div id="nameMode" class="gate-fields">
         <label for="gateName">Je naam</label>
-        <input class="text-in" id="gateName" maxlength="40" autocomplete="username" placeholder="Bijv. Toos">
+        <input class="text-in" id="gateName" maxlength="40" autocomplete="username" placeholder="Bijv. Jean-Pierre">
         <label for="gatePin">Kampcode</label>
-        <input class="text-in pin" id="gatePin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="current-password" placeholder="4 cijfers">
+        <input class="text-in pin" id="gatePin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="current-password" placeholder="••••">
         <small>Eerste keer? Verzin dan zelf 4 cijfers en onthoud ze goed. Daarmee check je later weer in om je kaart te wijzigen of te stemmen.</small>
       </div>
       <div id="newMode" class="new-box" hidden>
