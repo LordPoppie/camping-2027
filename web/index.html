@@ -597,9 +597,9 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
   </nav>
 
   <div class="intro">
-    <p class="lead">Hoi! Lijkt het je leuk om volgend jaar met een hele groep samen op de camping te staan?</p>
-    <p>Overdag wat spelletjes doen of samen ergens op uit, de kinderen die over de camping rennen of voor de tent spelen, en 's avonds de barbecue aan met een drankje erbij. Wij zouden dat heel gezellig vinden, en we hopen dat jij er ook zin in hebt.</p>
-    <p>Voordat we iets gaan zoeken, willen we eerst weten wie er mee wil en wat iedereen fijn vindt: hoe lang je weg wilt, hoe ver je wilt rijden, wat voor plek je leuk vindt en welke weken je kunt. Je zit nog nergens aan vast. Als we alles op een rijtje hebben, komen we met een paar opties en kiezen we samen.</p>
+    <p class="lead">Wij hadden een idée: volgend jaar met z'n allen en vacances op de camping. Wie doet er mee?</p>
+    <p>Gewoon lekker samen zijn. Spelletjes, beetje rondfietsen, de kids buiten laten spelen, 's ochtends om de beurt naar de boulangerie voor verse stokbroden en 's avonds een biertje bij de barbecue. Oh là là.</p>
+    <p>Om het een beetje te kunnen plannen, willen we weten wie er wil en wat je fijn vindt. Je zit nergens aan vast hoor, pas de problème. Als we weten wat iedereen wil, komen we met een paar ideeën en kiezen we samen. Allez, au camping!</p>
     <p class="small">Vul hieronder een kaart in voor jezelf, met je partner of met het hele gezin. Je kunt hem later nog aanpassen.</p>
   </div>
 
@@ -677,7 +677,7 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
         <div class="q-body">
           <div class="tiles" id="vibe" role="group" aria-label="Kamperen of een huisje">
             <button type="button" class="tile" data-v="huisje" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round"><rect x="6" y="14" width="32" height="18" fill="#fffaf0"/><path d="M2 15 L22 2 L42 15Z" fill="#d9412b"/><rect x="10" y="18" width="7" height="6" fill="#3d8fa8"/><rect x="27" y="18" width="7" height="6" fill="#3d8fa8"/><rect x="19" y="22" width="6" height="10" fill="#f2b134"/></g></svg><div><b>Ja, dat ben ik</b><span>Samen weg is top, maar dan wel met een echt bed en een eigen douche.</span></div></button>
-            <button type="button" class="tile" data-v="kamperen" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round"><path d="M4 32 L22 6 L40 32Z" fill="#ff8a4c"/><path d="M22 6 L17 32 H27Z" fill="#d9412b"/></g></svg><div><b>Nee hoor, ik kampeer graag</b><span>Geef mij maar een tent, een gasstelletje en een klapstoel.</span></div></button>
+            <button type="button" class="tile" data-v="kamperen" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round"><path d="M4 32 L22 6 L40 32Z" fill="#ff8a4c"/><path d="M22 6 L17 32 H27Z" fill="#d9412b"/></g></svg><div><b>Nee hoor, camping is leuk</b><span>Het hoeft ook niet per se een tentje te zijn: een caravan of stacaravan is ook prima.</span></div></button>
           </div>
         </div>
       </div>
@@ -844,7 +844,7 @@ const daysWord = d => d <= 3 ? "dagen, een lang weekend" : d <= 5 ? "dagen, een 
 
 /* ---------- formulierstatus ---------- */
 const blank = () => ({ people: [{ n: "", kid: false }], going: "", home: "", days: 7, driveHours: 4, abroad: [], vibe: "", stays: [], gear: [], wants: [], wantsOther: "", weeks: {}, note: "" });
-const VIBE_LABEL = { huisje: "Liever een huisje", kamperen: "Kampeert graag", "maakt-niet-uit": "Maakt niet uit" };
+const VIBE_LABEL = { huisje: "Liever een huisje", kamperen: "Camping is leuk", "maakt-niet-uit": "Maakt niet uit" };
 /* oudere kaarten hadden één naam en losse aantallen */
 const normalize = d => {
   const f = { ...blank(), ...JSON.parse(JSON.stringify(d || {})) };
