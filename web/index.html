@@ -196,8 +196,8 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
 .cal-tools{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:14px}
 .legend-pick{display:inline-flex;gap:6px;align-items:center}
 #cal .wk{cursor:default}
-.wk-pick{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px}
-.wk-pick button{cursor:pointer;border:1.5px solid var(--ink);border-radius:8px;background:#fff;font:inherit;font-size:13px;font-weight:600;padding:5px 2px;
+.wk-pick{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.45fr 1fr;gap:4px;margin-top:6px}
+.wk-pick button{cursor:pointer;border:1.5px solid var(--ink);border-radius:8px;background:#fff;font:inherit;font-size:12px;font-weight:600;padding:5px 2px;min-width:0;
   display:inline-flex;gap:5px;align-items:center;justify-content:center;transition:transform .1s}
 .wk-pick button:hover{transform:translateY(-1px)}
 .wk-pick button .dot{width:10px;height:10px}
@@ -771,12 +771,12 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
       </div>
 
       <div class="q">
-        <div class="q-label"><span class="q-num">Vraag 10</span><h3>Welke weken komen je goed uit?</h3><small>Kies per week: komt top uit, kan ook of kan echt niet. Nog een keer tikken haalt je keuze weg.</small></div>
+        <div class="q-label"><span class="q-num">Vraag 10</span><h3>Welke weken komen je goed uit?</h3><small>Kies per week: kan, misschien of nee. Nog een keer tikken haalt je keuze weg.</small></div>
         <div class="q-body">
           <div class="cal-tools">
-            <span class="legend-pick"><i class="dot top"></i>Top = komt top uit</span>
-            <span class="legend-pick"><i class="dot kan"></i>Kan = kan ook</span>
-            <span class="legend-pick"><i class="dot nee"></i>Niet = kan echt niet</span>
+            <span class="legend-pick"><i class="dot top"></i>Kan = komt goed uit</span>
+            <span class="legend-pick"><i class="dot kan"></i>Misschien = zou kunnen</span>
+            <span class="legend-pick"><i class="dot nee"></i>Nee = kan echt niet</span>
             <button type="button" class="linkish" id="clearWeeks">Alles wissen</button>
           </div>
           <div class="legend">
@@ -929,7 +929,7 @@ function weekCell(w, inner, attrs = "") {
 // formulier: geen knop om de hele week, maar drie keuzeknoppen erin
 function pickCell(w) {
   const html = weekCell(w, '<span class="mark" aria-hidden="true"></span>');
-  const pick = `<span class="wk-pick" role="group" aria-label="Week ${w.n}, ${fmtRange(w)}">${[["top", "Top"], ["kan", "Kan"], ["nee", "Niet"]]
+  const pick = `<span class="wk-pick" role="group" aria-label="Week ${w.n}, ${fmtRange(w)}">${[["top", "Kan"], ["kan", "Misschien"], ["nee", "Nee"]]
     .map(([v, l]) => `<button type="button" data-s="${v}" aria-pressed="false"><i class="dot ${v}"></i>${l}</button>`).join("")}</span>`;
   return html.replace('<button type="button" class="wk"', '<div class="wk"').replace(/<\/button>$/, pick + "</div>");
 }
@@ -1049,7 +1049,7 @@ $("#form").addEventListener("submit", async e => {
   if (missing.length) {
     const qs = $$("#form .q");
     missing.forEach(n => { const q = qs.find(q => q.querySelector(".q-num").textContent === "Vraag " + n); if (q) q.classList.add("missing"); });
-    const hint = { 4: "je woonplaats", 9: "minstens één wens", 10: "minstens één week die top uitkomt of kan" };
+    const hint = { 4: "je woonplaats", 9: "minstens één wens", 10: "minstens één week op kan of misschien" };
     const list = missing.map(n => hint[n] ? `${n} (${hint[n]})` : String(n));
     info.textContent = `Bijna! Vul nog in: vraag ${list.length > 1 ? list.slice(0, -1).join(", ") + " en " + list[list.length - 1] : list[0]}.`;
     const first = $("#form .q.missing");
@@ -1182,7 +1182,7 @@ async function renderBoard() {
     const x = W[w.key], sc = x.top.length * 2 + x.kan.length;
     const a = sc / maxScore;
     const bg = sc ? `background:color-mix(in srgb, var(--mustard) ${Math.round(15 + a * 85)}%, #fff)` : "";
-    const inner = `<span class="cnt" aria-label="${x.top.length} top, ${x.kan.length} kan, ${x.nee.length} niet"><span>☀︎${x.top.length}</span><span>☁︎${x.kan.length}</span><span>✕${x.nee.length}</span></span>`;
+    const inner = `<span class="cnt" aria-label="${x.top.length} kan, ${x.kan.length} misschien, ${x.nee.length} nee"><span>☀︎${x.top.length}</span><span>☁︎${x.kan.length}</span><span>✕${x.nee.length}</span></span>`;
     return weekCell(w, inner, `style="${bg}" aria-pressed="${selectedWeek === w.key}"`);
   };
 
@@ -1190,7 +1190,7 @@ async function renderBoard() {
   if (selectedWeek && W[selectedWeek]) {
     const x = W[selectedWeek], w = WEEKS.find(w => w.key === selectedWeek);
     const li = (arr, l) => arr.length ? `<li><b>${l}:</b> ${arr.map(id => esc(nameOf(id))).join(", ")}</li>` : "";
-    whoHTML = `<div class="who"><b>Week ${w.n} (${fmtRange(w)})</b><ul>${li(x.top, "Komt top uit") + li(x.kan, "Kan ook") + li(x.nee, "Kan niet") || "<li>Nog niemand heeft deze week ingevuld.</li>"}</ul></div>`;
+    whoHTML = `<div class="who"><b>Week ${w.n} (${fmtRange(w)})</b><ul>${li(x.top, "Kan") + li(x.kan, "Misschien") + li(x.nee, "Nee") || "<li>Nog niemand heeft deze week ingevuld.</li>"}</ul></div>`;
   }
 
   board.innerHTML = `
@@ -1205,7 +1205,7 @@ async function renderBoard() {
     <div class="note"><h3>Favoriete verblijven</h3>${barList(tally("stays", STAY_LABEL).slice(0, 6), goers.length)}</div>
     <div class="note"><h3>Wensen voor de camping</h3>${barList(tally("wants", WANT_LABEL).slice(0, 6), goers.length)}${otherWants.length ? `<p><b>Ook genoemd:</b> ${otherWants.map(esc).join(" · ")}</p>` : ""}</div>
     <div class="note span-2"><h3>Wie heeft wat</h3>${Object.keys(gearOwners).length ? `<div class="bars">${Object.entries(gearOwners).map(([g, ns]) => `<div style="font-size:14px"><b>${esc(GEAR_LABEL[g])}:</b> ${ns.map(esc).join(", ")}</div>`).join("")}</div>` : "<p>Nog niemand heeft eigen spullen opgegeven.</p>"}</div>
-    <div class="note"><h3>Beste weken tot nu toe</h3>${ranked.length ? `<div class="best">${ranked.map(x => `<span class="chip" title="${x.blockers} van wie zeker meegaat kan niet">wk ${x.w.n} · ${fmtRange(x.w)}${x.blockers ? ` · ${x.blockers}✕` : ""}</span>`).join("")}</div><p>Weken waar niemand die zeker meegaat "kan niet" heeft gezegd, staan bovenaan.</p>` : "<p>Nog geen weken ingevuld.</p>"}</div>
+    <div class="note"><h3>Beste weken tot nu toe</h3>${ranked.length ? `<div class="best">${ranked.map(x => `<span class="chip" title="${x.blockers} van wie zeker meegaat kan die week niet">wk ${x.w.n} · ${fmtRange(x.w)}${x.blockers ? ` · ${x.blockers}✕` : ""}</span>`).join("")}</div><p>Weken waar niemand die zeker meegaat "nee" heeft gezegd, staan bovenaan.</p>` : "<p>Nog geen weken ingevuld.</p>"}</div>
   </div>
   <div class="note heat" style="margin-top:16px"><h3>Agenda van iedereen</h3>
     <p style="margin:0 0 10px">Hoe geler, hoe meer mensen die week kunnen. Tik op een week om te zien wie.</p>
@@ -1217,7 +1217,7 @@ async function renderBoard() {
     const nTop = Object.values(r.weeks || {}).filter(s => s === "top").length;
     const av = P[r.id] ? `<img alt="" src="${esc(P[r.id].avatarUrl)}">` : "";
     return `<article class="guest"><header>${av}<b>${esc(nameOf(r.id))}</b><span class="pill ${esc(r.going)}">${esc(GOING_LABEL[r.going] || "?")}</span></header>
-      ${r.going === "nee" ? "" : `<dl><dt>Wie</dt><dd>${esc(party)}</dd><dt>Duur</dt><dd>${esc(r.days)} dagen</dd><dt>Rijden</dt><dd>max ${esc(driveText(r.driveHours))}${r.home ? ` vanuit ${esc(r.home)}` : ""}</dd><dt>Waar</dt><dd>${esc(r.abroad.map(a => ABROAD_LABEL[a]).filter(Boolean).join(", ") || "–")}</dd><dt>Kamperen?</dt><dd>${esc(VIBE_LABEL[r.vibe] || "–")}</dd><dt>Slapen</dt><dd>${esc((r.stays || []).map(s => STAY_LABEL[s]).filter(Boolean).join(", ") || "–")}</dd><dt>Weken</dt><dd>${nTop} top</dd></dl>`}
+      ${r.going === "nee" ? "" : `<dl><dt>Wie</dt><dd>${esc(party)}</dd><dt>Duur</dt><dd>${esc(r.days)} dagen</dd><dt>Rijden</dt><dd>max ${esc(driveText(r.driveHours))}${r.home ? ` vanuit ${esc(r.home)}` : ""}</dd><dt>Waar</dt><dd>${esc(r.abroad.map(a => ABROAD_LABEL[a]).filter(Boolean).join(", ") || "–")}</dd><dt>Kamperen?</dt><dd>${esc(VIBE_LABEL[r.vibe] || "–")}</dd><dt>Slapen</dt><dd>${esc((r.stays || []).map(s => STAY_LABEL[s]).filter(Boolean).join(", ") || "–")}</dd><dt>Weken</dt><dd>${nTop} keer kan</dd></dl>`}
       ${EMAILS[r.id] ? `<p style="margin:0;font-family:var(--mono);font-size:13px;overflow-wrap:anywhere">${esc(EMAILS[r.id])}</p>` : ""}
       ${r.note ? `<q>${esc(r.note)}</q>` : ""}</article>`;
   }).join("")}</div>`;
