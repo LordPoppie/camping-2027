@@ -842,11 +842,11 @@ for (let n = 13; n <= 34; n++) {
   WEEKS.push({ key: "2027-W" + String(n).padStart(2, "0"), n, mon, sun, month: thu.getUTCMonth() });
 }
 const HOLS = [
-  { l: "Pasen", f: "2027-03-28", t: "2027-03-29" },
+  { l: "Pasen", f: "2027-03-28", t: "2027-03-28" }, // alleen de zondag: 2e paasdag niet in de volgende week
   { l: "Koningsdag", f: "2027-04-27", t: "2027-04-27" },
   { l: "Bevrijdingsdag", f: "2027-05-05", t: "2027-05-05" },
   { l: "Hemelvaart", f: "2027-05-06", t: "2027-05-06" },
-  { l: "Pinksteren", f: "2027-05-16", t: "2027-05-17" },
+  { l: "Pinksteren", f: "2027-05-16", t: "2027-05-16" }, // idem voor 2e pinksterdag
 ];
 const VACS = [
   { l: "Voorjaarsvakantie", N: ["2027-02-20", "2027-02-28"], M: ["2027-02-20", "2027-02-28"], Z: ["2027-02-13", "2027-02-21"] },
