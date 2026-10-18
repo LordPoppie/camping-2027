@@ -556,7 +556,7 @@ input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:n
     <form class="gate-card" id="gateForm" novalidate>
       <span class="eyebrow">Receptie · even inchecken</span>
       <h2>Welkom op de camping!</h2>
-      <p id="gateMsg">Vul je e-mailadres in. Je krijgt een mail met een inloglink en een code, geen wachtwoord nodig. Alleen de organisatie ziet je adres.</p>
+      <p id="gateMsg">Vul je e-mailadres in. Je krijgt een mail met een inloglink, geen wachtwoord nodig. Alleen de organisatie ziet je adres.</p>
       <label for="gateEmail">E-mailadres</label>
       <input class="text-in" type="email" id="gateEmail" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.nl" required>
       <div id="codeWrap" hidden style="display:flex;flex-direction:column;gap:6px">
@@ -1133,8 +1133,9 @@ let codeStep = false;
 function resetGate() {
   codeStep = false;
   $("#codeWrap").hidden = true; $("#gateEmail").readOnly = false; $("#gateCode").value = "";
-  $("#gateBtn").textContent = "Stuur inloglink"; $("#gateErr").textContent = "";
-  $("#gateMsg").textContent = "Vul je e-mailadres in. Je krijgt een mail met een inloglink en een code, geen wachtwoord nodig. Alleen de organisatie ziet je adres.";
+  $("#gateBtn").textContent = "Stuur inloglink"; $("#gateBtn").hidden = false; $("#gateErr").textContent = "";
+  $$("#codeWrap label, #codeWrap input").forEach(el => el.hidden = false);
+  $("#gateMsg").textContent = "Vul je e-mailadres in. Je krijgt een mail met een inloglink, geen wachtwoord nodig. Alleen de organisatie ziet je adres.";
   $("#gateEmail").focus();
 }
 $("#gateRestart").addEventListener("click", resetGate);
@@ -1150,9 +1151,14 @@ $("#gateForm").addEventListener("submit", async e => {
     btn.disabled = false;
     if (res && res.error) { err.textContent = "De mail versturen lukte niet. Probeer het over een minuut opnieuw."; return; }
     if (res && res.demo) { await begin(await auth.session()); openGate(); return; }
+    // De standaardmail van Supabase bevat alleen een link. Met een eigen mailserver kan er ook een code in;
+    // zet dan SHOW_CODE op true.
+    const SHOW_CODE = false;
+    $("#gateEmail").readOnly = true;
+    $("#gateMsg").textContent = `We hebben een mail gestuurd naar ${v}. Tik op de link in die mail, het liefst op dit apparaat. Je komt dan vanzelf terug op de camping.`;
+    if (!SHOW_CODE) { btn.hidden = true; $("#codeWrap").hidden = false; $("#gateCode").closest("#codeWrap").querySelectorAll("label,input").forEach(el => el.hidden = true); return; }
     codeStep = true;
-    $("#codeWrap").hidden = false; $("#gateEmail").readOnly = true; btn.textContent = "Inchecken";
-    $("#gateMsg").textContent = `We hebben een mail gestuurd naar ${v}. Tik op de link in die mail, of typ hieronder de 6 cijfers.`;
+    $("#codeWrap").hidden = false; btn.textContent = "Inchecken";
     $("#gateCode").focus();
     return;
   }

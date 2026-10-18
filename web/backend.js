@@ -29,20 +29,22 @@ export const auth = DEMO ? {
 
 const TABLES = {
   responses: {
-    async all() { return must(await sb.from("responses").select("user_id,data")).map(r => [r.user_id, r.data]); },
-    async get(id) { const r = must(await sb.from("responses").select("data").eq("user_id", id).maybeSingle()); return r && r.data; },
-    async set(id, body) { must(await sb.from("responses").upsert({ user_id: id, data: body })); },
+    table: "camping_responses",
+    async all() { return must(await sb.from("camping_responses").select("user_id,data")).map(r => [r.user_id, r.data]); },
+    async get(id) { const r = must(await sb.from("camping_responses").select("data").eq("user_id", id).maybeSingle()); return r && r.data; },
+    async set(id, body) { must(await sb.from("camping_responses").upsert({ user_id: id, data: body })); },
   },
   guests: {
-    async all() { return must(await sb.from("guests").select("user_id,names,going,updated_at")).map(r => [r.user_id, { names: r.names, going: r.going, updatedAt: r.updated_at }]); },
-    async get(id) { const r = must(await sb.from("guests").select("names,going,updated_at").eq("user_id", id).maybeSingle()); return r && { names: r.names, going: r.going, updatedAt: r.updated_at }; },
-    async set(id, body) { must(await sb.from("guests").upsert({ user_id: id, names: body.names, going: body.going })); },
+    table: "camping_guests",
+    async all() { return must(await sb.from("camping_guests").select("user_id,names,going,updated_at")).map(r => [r.user_id, { names: r.names, going: r.going, updatedAt: r.updated_at }]); },
+    async get(id) { const r = must(await sb.from("camping_guests").select("names,going,updated_at").eq("user_id", id).maybeSingle()); return r && { names: r.names, going: r.going, updatedAt: r.updated_at }; },
+    async set(id, body) { must(await sb.from("camping_guests").upsert({ user_id: id, names: body.names, going: body.going })); },
   },
   // e-mailadressen komen uit het account zelf (trigger op auth.users)
   contacts: {
-    table: "profiles",
-    async all() { return must(await sb.from("profiles").select("user_id,email")).map(r => [r.user_id, { email: r.email }]); },
-    async get(id) { const r = must(await sb.from("profiles").select("email").eq("user_id", id).maybeSingle()); return r && { email: r.email }; },
+    table: "camping_profiles",
+    async all() { return must(await sb.from("camping_profiles").select("user_id,email")).map(r => [r.user_id, { email: r.email }]); },
+    async get(id) { const r = must(await sb.from("camping_profiles").select("email").eq("user_id", id).maybeSingle()); return r && { email: r.email }; },
     async set() {},
   },
 };
@@ -118,7 +120,7 @@ export function makeUser(session) {
     async email() { return email; },
     async isOwner() {
       if (DEMO) return true;
-      if (owner === null) { try { owner = !!must(await sb.rpc("is_organizer")); } catch (e) { owner = false; } }
+      if (owner === null) { try { owner = !!must(await sb.rpc("camping_is_organizer")); } catch (e) { owner = false; } }
       return owner;
     },
     async can() { return null; },

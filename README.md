@@ -10,13 +10,13 @@ Inschrijfsite voor de campingvakantie van 2027. Vrienden loggen in met hun e-mai
     python3 -m http.server 5179 --directory web
 
 ## Supabase inrichten
-1. Maak een project aan (of gebruik een bestaand) en voer `supabase/migrations/0001_init.sql` uit, via de SQL editor of `supabase db push`.
+1. Draait nu in het project "It's Growing" (alle tabellen heten `camping_*`). Voor een ander project: voer `supabase/migrations/0001_init.sql` uit, via de SQL editor of `supabase db push`.
 2. **Authentication → URL Configuration:** zet de *Site URL* op het GitHub Pages-adres (bv. `https://lordpoppie.github.io/camping-2027/`) en voeg dat adres ook toe aan *Redirect URLs*. Voeg `http://localhost:5179/` toe om lokaal te testen.
-3. **Authentication → Email Templates → Magic Link:** zet `{{ .Token }}` in de mail, dan kan iemand ook de 6-cijferige code typen (handig als de link in een andere browser opent).
+3. De inlogmail bevat alleen een link. Een eigen mailtekst met 6-cijferige code kan pas met een eigen SMTP-server (Authentication → SMTP Settings) of een betaald plan; zet dan `{{ .Token }}` in de Magic Link-template en `SHOW_CODE` in `web/index.html` op `true`.
 4. Vul `web/config.js` met de project-URL en de publishable key (Project Settings → API Keys).
 5. Log één keer zelf in op de site en maak jezelf organisator:
 
-       insert into public.organizers (user_id)
+       insert into public.camping_organizers (user_id)
        select id from auth.users where email = 'jouw@adres.nl';
 
 ## Wie ziet wat
