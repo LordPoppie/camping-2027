@@ -1,0 +1,1228 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7746a">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Camping De Gouden Baguette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: zonsondergang-hero met campingtafereel, daarna twee "receptiekaarten" (gastenkaart + prikbord) op een picknickkleed. Bewust één warme kitsch-look, geen donkere variant. */
+:root{
+  --paper:#fff3d6;
+  --card:#fffaf0;
+  --ink:#3b2314;
+  --ink-soft:#7a5a43;
+  --tomato:#d9412b;
+  --sunset:#ff8a4c;
+  --mustard:#f2b134;
+  --pine:#2f6b4f;
+  --pine-soft:#cfe3c9;
+  --sea:#3d8fa8;
+  --sea-soft:#d3ecf2;
+  --crust:#d99a4e;
+  --crumb:#f6d79c;
+  --rain:#8a8fb0;
+  --rain-soft:#e3e4ef;
+  --sun-soft:#ffe39a;
+  --display:"Shrikhand","Cooper Black","Georgia",serif;
+  --body:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(90deg,rgba(217,65,43,.07) 50%,transparent 50%),
+    linear-gradient(rgba(217,65,43,.07) 50%,transparent 50%);
+  background-size:32px 32px;
+  color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+}
+h1,h2,h3{text-wrap:balance;margin:0}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:#f7746a;border-bottom:4px solid var(--ink)}
+.hero svg{display:block;width:100%;height:clamp(300px,46vw,520px)}
+.sign{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:clamp(18px,4vw,48px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));text-align:center;pointer-events:none}
+.sign .eyebrow{font-family:var(--mono);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;
+  background:var(--ink);color:var(--sun-soft);padding:4px 12px;border-radius:999px}
+.sign h1{font-family:var(--display);font-weight:400;color:var(--card);font-size:clamp(34px,7.4vw,92px);line-height:.95;margin-top:10px;
+  text-shadow:3px 3px 0 var(--tomato),6px 6px 0 var(--ink);transform:rotate(-2deg)}
+.sign .stars{color:var(--mustard);font-size:clamp(16px,2.4vw,26px);letter-spacing:.3em;margin-top:8px;text-shadow:2px 2px 0 var(--ink)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:32px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:10px 0}
+.nav a,.nav span{font-family:var(--mono);font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);
+  background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:6px 14px;box-shadow:3px 3px 0 var(--ink)}
+.nav a:hover{background:var(--sun-soft)}
+.nav span{opacity:.55;box-shadow:none;border-style:dashed}
+.intro{max-width:66ch;margin:0 auto;text-align:center;font-size:17px;display:flex;flex-direction:column;gap:10px}
+.intro p{margin:0}
+.intro .lead{font-size:clamp(20px,2.6vw,24px);line-height:1.4}
+.intro .small{font-size:15px;color:var(--ink-soft)}
+.intro b{font-weight:800}
+.people{display:flex;flex-direction:column;gap:8px;max-width:600px}
+.person{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.person .text-in{flex:1 1 180px;max-width:none;font-size:16px;padding:8px 12px}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:7px 14px;cursor:pointer;font-weight:600}
+.seg button + button{border-left:2px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--mustard)}
+.x{width:36px;height:36px;border-radius:50%;border:2px solid var(--ink);background:#fff;cursor:pointer;font-weight:800;font-size:18px;line-height:1}
+.x:disabled{opacity:.3;cursor:not-allowed}
+.people-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.other-in{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.other-in label{font-weight:600}
+.other-in .text-in{flex:1 1 220px;font-size:16px;padding:8px 12px}
+.status{max-width:720px;margin:0 auto;border:2px dashed var(--ink);background:var(--card);border-radius:14px;padding:12px 16px;font-size:15px}
+.status[data-kind="ok"]{border-style:solid;background:var(--pine-soft)}
+.status[data-kind="warn"]{background:var(--sun-soft)}
+
+.card{position:relative;background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);
+  padding:clamp(18px,3.4vw,40px);min-width:0}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.card-head h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.4vw,44px);line-height:1;color:var(--tomato);text-shadow:2px 2px 0 var(--sun-soft)}
+.card-head p{margin:6px 0 0;color:var(--ink-soft);max-width:52ch}
+.stamp{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--tomato);
+  border:2px solid var(--tomato);border-radius:8px;padding:6px 10px;transform:rotate(4deg);text-align:center;line-height:1.3;flex-shrink:0}
+.stamp b{display:block;font-size:20px;letter-spacing:.04em}
+
+/* ---------- form ---------- */
+.q{border-top:2px dashed rgba(59,35,20,.25);padding-block:22px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:12px 28px}
+.q:first-of-type{border-top:0;padding-top:4px}
+.q-label{display:flex;flex-direction:column;gap:4px}
+.q-num{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.q-label h3{font-size:20px;font-weight:800;line-height:1.2}
+.q-label small{color:var(--ink-soft);font-size:14px}
+.q-body{min-width:0;display:flex;flex-direction:column;gap:12px}
+@media (max-width:720px){.q{grid-template-columns:1fr}}
+
+.text-in{width:100%;max-width:420px;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:10px 14px;font-size:18px}
+textarea.text-in{max-width:none;min-height:96px;resize:vertical;font-size:16px}
+
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.chip{cursor:pointer;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;transition:transform .12s}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--mustard);box-shadow:3px 3px 0 var(--ink)}
+.big .chip{font-size:18px;padding:12px 20px;border-radius:16px}
+.big .chip[data-v="ja"][aria-pressed="true"]{background:var(--pine);color:var(--card)}
+.big .chip[data-v="misschien"][aria-pressed="true"]{background:var(--mustard)}
+.big .chip[data-v="nee"][aria-pressed="true"]{background:var(--rain);color:var(--card)}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.tile{cursor:pointer;text-align:left;border:2px solid var(--ink);border-radius:16px;background:#fff;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.tile svg{flex:0 0 44px;height:36px}
+.tile b{display:block;font-size:16px;line-height:1.2}
+.tile span{display:block;font-size:13px;color:var(--ink-soft);line-height:1.35;margin-top:2px}
+.tile[aria-pressed="true"]{background:var(--sun-soft);box-shadow:4px 4px 0 var(--ink)}
+
+.party{display:flex;flex-wrap:wrap;gap:12px}
+.stepper{display:flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:14px;background:#fff;padding:6px 10px}
+.stepper label{font-weight:600;min-width:84px}
+.stepper button{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);background:var(--crumb);cursor:pointer;font-weight:800;line-height:1}
+.stepper output{min-width:24px;text-align:center;font-family:var(--mono);font-weight:700;font-size:18px}
+
+/* sliders */
+.slider-wrap{display:flex;flex-direction:column;gap:8px;max-width:640px}
+.readout{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.readout strong{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;color:var(--tomato)}
+.readout em{font-style:normal;color:var(--ink-soft)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:999px;border:2px solid var(--ink);background:linear-gradient(90deg,var(--crumb),var(--sunset))}
+input[type=range]::-moz-range-track{height:12px;border-radius:999px;border:2px solid var(--ink);background:linear-gradient(90deg,var(--crumb),var(--sunset))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:64px;height:28px;margin-top:-10px;border:0;background:no-repeat center/contain;background-color:transparent}
+input[type=range]::-moz-range-thumb{width:64px;height:28px;border:0;background:no-repeat center/contain;background-color:transparent}
+#days::-webkit-slider-thumb{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 28'%3E%3Crect x='2' y='5' width='60' height='18' rx='9' fill='%23d99a4e' stroke='%233b2314' stroke-width='2.5'/%3E%3Cpath d='M15 10l6 8M28 10l6 8M41 10l6 8' stroke='%23f6d79c' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E")}
+#days::-moz-range-thumb{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 28'%3E%3Crect x='2' y='5' width='60' height='18' rx='9' fill='%23d99a4e' stroke='%233b2314' stroke-width='2.5'/%3E%3Cpath d='M15 10l6 8M28 10l6 8M41 10l6 8' stroke='%23f6d79c' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E")}
+#drive::-webkit-slider-thumb{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 28'%3E%3Crect x='6' y='3' width='46' height='18' rx='8' fill='%23fffaf0' stroke='%233b2314' stroke-width='2.5'/%3E%3Crect x='6' y='13' width='46' height='5' fill='%23d9412b'/%3E%3Crect x='12' y='7' width='10' height='5' rx='1.5' fill='%233d8fa8'/%3E%3Crect x='38' y='7' width='8' height='12' rx='1' fill='%23f2b134' stroke='%233b2314' stroke-width='1.5'/%3E%3Cpath d='M52 17h9' stroke='%233b2314' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='22' r='4.5' fill='%233b2314'/%3E%3C/svg%3E")}
+#drive::-moz-range-thumb{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 28'%3E%3Crect x='6' y='3' width='46' height='18' rx='8' fill='%23fffaf0' stroke='%233b2314' stroke-width='2.5'/%3E%3Crect x='6' y='13' width='46' height='5' fill='%23d9412b'/%3E%3Crect x='12' y='7' width='10' height='5' rx='1.5' fill='%233d8fa8'/%3E%3Crect x='38' y='7' width='8' height='12' rx='1' fill='%23f2b134' stroke='%233b2314' stroke-width='1.5'/%3E%3Cpath d='M52 17h9' stroke='%233b2314' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='22' r='4.5' fill='%233b2314'/%3E%3C/svg%3E")}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.loaves{display:flex;flex-wrap:wrap;gap:4px 6px;min-height:14px}
+.loaf{width:30px;height:10px;border-radius:6px;border:1.5px solid var(--ink);
+  background:repeating-linear-gradient(115deg,var(--crust) 0 6px,var(--crumb) 6px 8px)}
+.hint{background:var(--sea-soft);border:2px solid var(--sea);border-radius:12px;padding:10px 14px;font-size:15px}
+.hint b{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:12px;display:block;color:var(--sea)}
+
+/* calendar */
+.brushes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.brushes > span{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.brush{cursor:pointer;border:2px solid var(--ink);border-radius:12px;padding:6px 12px;background:#fff;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.brush[aria-pressed="true"]{box-shadow:3px 3px 0 var(--ink);transform:translateY(-1px)}
+.brush[data-s="top"]{background:var(--sun-soft)}
+.brush[data-s="kan"]{background:var(--sea-soft)}
+.brush[data-s="nee"]{background:var(--rain-soft)}
+.brush.ghost{background:transparent;border-style:dashed}
+.dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);flex:0 0 auto}
+.dot.top{background:var(--mustard)}
+.dot.kan{background:var(--sea)}
+.dot.nee{background:var(--rain)}
+.cal-scroll{overflow-x:auto;padding-bottom:4px}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.month h4{margin:0 0 6px;font-family:var(--display);font-weight:400;font-size:20px;color:var(--pine)}
+.weeks{display:flex;flex-direction:column;gap:6px}
+.wk{cursor:pointer;width:100%;text-align:left;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:7px 10px;display:grid;
+  grid-template-columns:auto 1fr auto;gap:2px 8px;align-items:center;position:relative}
+.wk .no{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.wk .range{font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.wk .mark{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--ink-soft)}
+.wk .tags{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.tag{font-size:11px;font-family:var(--mono);background:var(--paper);border:1px solid var(--ink-soft);border-radius:6px;padding:0 5px}
+.tag.vac{background:var(--tomato);color:var(--card);border-color:var(--tomato)}
+.sv{display:inline-flex;gap:2px;margin-left:auto}
+.sv i{font-style:normal;font-family:var(--mono);font-size:10px;width:16px;text-align:center;border-radius:4px;color:var(--ink-soft);border:1px solid transparent}
+.sv i.on{background:var(--tomato);color:var(--card)}
+.wk[data-s="top"]{background:var(--sun-soft)}
+.wk[data-s="top"] .mark{background:var(--mustard);border:1.5px solid var(--ink)}
+.wk[data-s="kan"]{background:var(--sea-soft)}
+.wk[data-s="kan"] .mark{background:var(--sea);border:1.5px solid var(--ink)}
+.wk[data-s="nee"]{background:var(--rain-soft);color:var(--ink-soft)}
+.wk[data-s="nee"] .mark{background:var(--rain);border:1.5px solid var(--ink)}
+.legend{font-size:13px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.legend .sv i{width:auto;padding:0 4px}
+
+.save-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:flex-end;border-top:3px solid var(--ink);margin-top:10px;padding-top:22px}
+.save-row p{margin:0;color:var(--ink-soft);font-size:14px;flex:1 1 240px}
+.btn{cursor:pointer;border:3px solid var(--ink);border-radius:16px;background:var(--tomato);color:var(--card);font-family:var(--display);font-size:22px;
+  padding:10px 26px;box-shadow:5px 5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.toast{font-family:var(--mono);font-weight:700}
+
+/* ---------- prikbord ---------- */
+.board-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.note{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:16px;min-width:0}
+.note h3{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.big-num{font-family:var(--display);font-size:42px;line-height:1;color:var(--tomato)}
+.note p{margin:6px 0 0;font-size:14px;color:var(--ink-soft)}
+.trio{display:flex;gap:14px;flex-wrap:wrap}
+.trio div{display:flex;flex-direction:column}
+.trio .n{font-family:var(--display);font-size:34px;line-height:1}
+.trio .l{font-size:13px;color:var(--ink-soft)}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:8px;align-items:center;font-size:14px}
+.bar .track{position:relative;height:22px;border:1.5px solid var(--ink);border-radius:8px;background:var(--paper);overflow:hidden}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:var(--mustard)}
+.bar .lbl{position:relative;padding:0 8px;line-height:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.bar .c{font-family:var(--mono);font-weight:700;text-align:right}
+.span-2{grid-column:span 2}
+@media (max-width:600px){.span-2{grid-column:auto}}
+
+.heat .wk{cursor:pointer}
+.heat .wk .mark{display:none}
+.heat .wk .cnt{font-family:var(--mono);font-size:12px;display:flex;gap:6px}
+.heat .wk[aria-pressed="true"]{outline:3px solid var(--tomato);outline-offset:1px}
+.best{display:flex;flex-wrap:wrap;gap:10px}
+.best .chip{cursor:default}
+.who{margin-top:10px;font-size:14px}
+.who ul{margin:6px 0 0;padding-left:18px}
+
+.guests{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.guest{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.guest:nth-child(3n+1){transform:rotate(-.6deg)}
+.guest:nth-child(3n+2){transform:rotate(.5deg)}
+.guest header{display:flex;align-items:center;gap:10px}
+.guest img{width:36px;height:36px;border-radius:50%;border:2px solid var(--ink)}
+.guest header b{font-size:17px;flex:1;min-width:0;overflow-wrap:anywhere}
+.pill{font-family:var(--mono);font-weight:700;font-size:12px;border-radius:999px;padding:2px 10px;border:1.5px solid var(--ink)}
+.pill.ja{background:var(--pine);color:var(--card)}
+.pill.misschien{background:var(--mustard)}
+.pill.nee{background:var(--rain);color:var(--card)}
+.guest dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px}
+.guest dt{color:var(--ink-soft)}
+.guest dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.guest q{font-style:italic;font-size:14px;color:var(--ink-soft);overflow-wrap:anywhere}
+.empty{border:2px dashed var(--ink-soft);border-radius:16px;padding:22px;text-align:center;color:var(--ink-soft)}
+.empty b{display:block;font-family:var(--display);font-weight:400;font-size:24px;color:var(--pine);margin-bottom:4px}
+.foot{text-align:center;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.later{border-style:dashed;box-shadow:none;background:transparent;text-align:center}
+.later h2{color:var(--pine)}
+.sign .stars span{display:inline-block}
+/* SVG-onderdelen draaien en schalen om hun eigen middelpunt */
+.hero svg g{transform-box:fill-box}
+.s-tent,.s-basket,.s-bbq,.s-flamingo{transform-origin:50% 100%}
+.s-wheel{transform-origin:50% 50%}
+.a-sway{transform-origin:50% 100%}
+.a-wiggle{transform-origin:50% 100%}
+.a-nod{transform-origin:0% 100%}
+.a-flap{transform-origin:50% 50%}
+.a-flag{transform-box:fill-box;transform-origin:0% 50%}
+.puff{transform-box:fill-box;transform-origin:50% 50%}
+
+/* ---------- incheckscherm ---------- */
+.gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow-y:auto;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  background:rgba(59,35,20,.42);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.gate-box{position:relative;width:min(470px,100%);padding-top:34px}
+.barrier{position:absolute;top:0;left:-6px;right:-30px;height:40px;z-index:2;pointer-events:none}
+.barrier .post{position:absolute;left:0;top:4px;width:26px;height:56px;border:3px solid var(--ink);border-radius:8px 8px 4px 4px;background:var(--pine)}
+.barrier .arm{position:absolute;left:12px;top:12px;right:0;height:20px;border:3px solid var(--ink);border-radius:10px;
+  background:repeating-linear-gradient(90deg,var(--tomato) 0 34px,var(--card) 34px 68px);transform-origin:4px 50%;
+  transition:transform .8s cubic-bezier(.5,-0.4,.3,1.4)}
+.gate-card{position:relative;background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);
+  padding:34px 26px 26px;display:flex;flex-direction:column;gap:10px}
+.gate-card .eyebrow{align-self:flex-start;font-family:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12px;
+  background:var(--ink);color:var(--sun-soft);padding:4px 12px;border-radius:999px}
+.gate-card h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,6vw,38px);line-height:1.05;color:var(--tomato);text-shadow:2px 2px 0 var(--sun-soft)}
+.gate-card p{margin:0;color:var(--ink-soft)}
+.gate-card label{font-weight:800;margin-top:4px}
+.gate-card .text-in{max-width:none}
+.gate-card .btn{align-self:flex-start;margin-top:4px}
+.gate-err{min-height:1.2em;color:var(--tomato) !important;font-weight:600;font-size:14px}
+.gate{transition:opacity .45s ease .75s}
+.gate.opening{opacity:0}
+.gate.opening .arm{transform:rotate(-80deg)}
+.gate.opening .gate-card{transition:transform .5s ease .7s;transform:translateY(30px) scale(.97)}
+.checked{margin:-14px auto 0;text-align:center;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.checked button{background:none;border:0;padding:0;color:var(--sea);text-decoration:underline;cursor:pointer;font:inherit}
+
+@media (prefers-reduced-motion:no-preference){
+  /* ---------- doorlopende animatie ---------- */
+  .a-sink{animation:sink 9s ease-in-out infinite alternate}
+  .a-glow{animation:glow 4s ease-in-out infinite alternate;transform-origin:50% 50%}
+  .a-cloud{animation:drift 70s linear infinite;animation-delay:-22s}
+  .a-cloud.c2{animation-duration:95s;animation-delay:-40s}
+  .a-cloud.c3{animation-duration:120s;animation-delay:-80s}
+  .a-birds{animation:fly 26s linear infinite;animation-delay:-6s}
+  .a-flap{animation:flap .5s ease-in-out infinite alternate}
+  .a-flap.f2{animation-delay:-.2s}
+  .a-flap.f3{animation-delay:-.35s}
+  .a-sway{animation:sway 5s ease-in-out infinite alternate}
+  .a-sway.d2{animation-delay:-2s}
+  .a-sway.d3{animation-delay:-3.4s}
+  .lamp{animation:twinkle 2.4s ease-in-out infinite alternate}
+  .lamp:nth-child(2n){animation-delay:-1.2s}
+  .lamp:nth-child(3n){animation-delay:-.6s}
+  .a-flag{animation:flag .9s ease-in-out infinite alternate}
+  .a-wiggle{animation:wiggle 3.2s ease-in-out infinite alternate}
+  .a-wiggle.w2{animation-delay:-1.6s}
+  .puff{animation:puff 3.6s ease-out infinite}
+  .puff.p2{animation-delay:-1.2s}
+  .puff.p3{animation-delay:-2.4s}
+  .a-ember{animation:twinkle .8s ease-in-out infinite alternate}
+  .a-bob{animation:bob 2.6s ease-in-out infinite alternate}
+  .a-window{animation:lightsOn 8s ease-in-out infinite alternate}
+  .a-nod{animation:nod 4s ease-in-out infinite}
+  .stars span{animation:starPulse 3s ease-in-out infinite}
+  .stars span:nth-child(2){animation-delay:.15s}
+  .stars span:nth-child(3){animation-delay:.3s}
+  .stars span:nth-child(4){animation-delay:.45s}
+  .stars span:nth-child(5){animation-delay:.6s}
+
+  /* ---------- binnenkomst (body.play) ---------- */
+  .play .s-sun{animation:sunrise 1.8s cubic-bezier(.2,.8,.2,1) both}
+  .play .s-far{animation:rise 1.2s .1s cubic-bezier(.2,.8,.2,1) both}
+  .play .s-mid{animation:rise 1.2s .25s cubic-bezier(.2,.8,.2,1) both}
+  .play .s-pines > g:nth-child(1) > .a-sway,
+  .play .s-pines > g:nth-child(3) > .a-sway{animation:grow .7s .5s cubic-bezier(.3,1.6,.5,1) both,sway 5s 1.2s ease-in-out infinite alternate}
+  .play .s-pines > g:nth-child(2) > .a-sway,
+  .play .s-pines > g:nth-child(4) > .a-sway{animation:grow .7s .65s cubic-bezier(.3,1.6,.5,1) both,sway 5s 1.4s ease-in-out infinite alternate}
+  .play .s-tent{animation:pop .8s .9s cubic-bezier(.3,1.7,.5,1) both}
+  .play .s-caravan{animation:drive 2s .6s cubic-bezier(.15,.7,.25,1) both}
+  .play .s-wheel{animation:spin .55s linear .6s 3}
+  .play .s-basket{animation:drop .7s 1.5s cubic-bezier(.3,1.5,.5,1) both}
+  .play .s-bbq{animation:pop .6s 1.8s cubic-bezier(.3,1.7,.5,1) both}
+  .play .s-flamingo{animation:pop .6s 2s cubic-bezier(.3,1.7,.5,1) both}
+  .play .lamp{animation:lampOn .35s both,twinkle 2.4s ease-in-out infinite alternate}
+  .play .lamp:nth-child(1){animation-delay:2.1s,2.5s}
+  .play .lamp:nth-child(2){animation-delay:2.2s,2.6s}
+  .play .lamp:nth-child(3){animation-delay:2.3s,2.7s}
+  .play .lamp:nth-child(4){animation-delay:2.4s,2.8s}
+  .play .lamp:nth-child(5){animation-delay:2.5s,2.9s}
+  .play .lamp:nth-child(6){animation-delay:2.6s,3s}
+  .play .lamp:nth-child(7){animation-delay:2.7s,3.1s}
+  .play .lamp:nth-child(8){animation-delay:2.8s,3.2s}
+  .play .sign .eyebrow{animation:fadeDown .6s .4s both}
+  .play .sign h1{animation:hang 1.2s 1.1s cubic-bezier(.3,1.5,.5,1) both}
+  .play .stars span{animation:starPop .5s both,starPulse 3s ease-in-out infinite}
+  .play .stars span:nth-child(1){animation-delay:2s,3s}
+  .play .stars span:nth-child(2){animation-delay:2.1s,3.15s}
+  .play .stars span:nth-child(3){animation-delay:2.2s,3.3s}
+  .play .stars span:nth-child(4){animation-delay:2.3s,3.45s}
+  .play .stars span:nth-child(5){animation-delay:2.4s,3.6s}
+  .play main > *{animation:cardUp .8s cubic-bezier(.2,.8,.2,1) both}
+  .play main > :nth-child(1){animation-delay:1.6s}
+  .play main > :nth-child(2){animation-delay:1.8s}
+  .play main > :nth-child(3){animation-delay:2s}
+  .play main > :nth-child(n+4){animation-delay:2.2s}
+}
+@keyframes sink{from{transform:translateY(0)}to{transform:translateY(14px)}}
+@keyframes glow{from{opacity:.55;transform:scale(.94)}to{opacity:1;transform:scale(1.05)}}
+@keyframes drift{from{transform:translateX(-420px)}to{transform:translateX(1400px)}}
+@keyframes fly{from{transform:translate(-500px,40px)}to{transform:translate(1300px,-60px)}}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.4)}}
+@keyframes sway{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+@keyframes flag{from{transform:scaleX(1) skewY(0)}to{transform:scaleX(.75) skewY(8deg)}}
+@keyframes wiggle{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes puff{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:.85}100%{transform:translate(18px,-90px) scale(2.2);opacity:0}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes lightsOn{0%,60%{opacity:0}100%{opacity:.85}}
+@keyframes nod{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(12deg)}90%{transform:rotate(-4deg)}}
+@keyframes starPulse{0%,80%,100%{transform:scale(1)}90%{transform:scale(1.35) rotate(15deg)}}
+@keyframes sunrise{from{transform:translateY(260px)}}
+@keyframes rise{from{transform:translateY(120px)}}
+@keyframes grow{from{transform:scale(0)}}
+@keyframes pop{from{transform:scale(0,0)}}
+@keyframes drive{from{transform:translateX(760px)}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+@keyframes drop{from{transform:translateY(-420px)}}
+@keyframes lampOn{from{opacity:0;transform:scale(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}}
+@keyframes hang{from{transform:translateY(-140%) rotate(-12deg)}}
+@keyframes starPop{from{transform:scale(0)}}
+@keyframes cardUp{from{opacity:0;transform:translateY(40px)}}
+</style>
+
+</head>
+<body>
+<header class="hero">
+  <svg viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f7746a"/>
+        <stop offset=".55" stop-color="#ffa65c"/>
+        <stop offset="1" stop-color="#ffdb7a"/>
+      </linearGradient>
+      <linearGradient id="sunfill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff6c4"/>
+        <stop offset="1" stop-color="#ffc443"/>
+      </linearGradient>
+      <radialGradient id="glow">
+        <stop offset="0" stop-color="#fff6c4" stop-opacity=".7"/>
+        <stop offset="1" stop-color="#fff6c4" stop-opacity="0"/>
+      </radialGradient>
+      <mask id="stripes">
+        <rect x="0" y="0" width="1200" height="520" fill="#fff"/>
+        <rect x="380" y="330" width="440" height="8" fill="#000"/>
+        <rect x="380" y="352" width="440" height="11" fill="#000"/>
+        <rect x="380" y="376" width="440" height="14" fill="#000"/>
+        <rect x="380" y="402" width="440" height="18" fill="#000"/>
+      </mask>
+      <g id="pine">
+        <rect x="-5" y="0" width="10" height="26" fill="#5a3a24"/>
+        <path d="M0-120 L34-56 H18 L46-12 H26 L56 22 H-56 L-26-12 H-46 L-18-56 H-34Z" fill="#2f6b4f" stroke="#3b2314" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+      <path id="cloud" d="M0 30 Q0 8 24 10 Q34 -8 58 2 Q78 -6 90 12 Q112 10 112 30Z" fill="#fff3d6" stroke="#3b2314" stroke-width="2.5" stroke-linejoin="round"/>
+      <path id="bird" d="M-14 0 Q-7 -8 0 0 Q7 -8 14 0" fill="none" stroke="#3b2314" stroke-width="3" stroke-linecap="round"/>
+    </defs>
+    <rect width="1200" height="520" fill="url(#sky)"/>
+
+    <!-- zon: buitenste groep zakt langzaam, binnenste komt op bij binnenkomst -->
+    <g class="a-sink"><g class="s-sun">
+      <circle class="a-glow" cx="600" cy="400" r="260" fill="url(#glow)"/>
+      <circle cx="600" cy="400" r="160" fill="url(#sunfill)" mask="url(#stripes)"/>
+    </g></g>
+
+    <!-- wolken -->
+    <g class="a-cloud c1"><use href="#cloud" transform="translate(140 70) scale(1.1)"/></g>
+    <g class="a-cloud c2"><use href="#cloud" transform="translate(760 120) scale(.8)"/></g>
+    <g class="a-cloud c3"><use href="#cloud" transform="translate(420 40) scale(.6)"/></g>
+
+    <!-- vogels -->
+    <g class="a-birds">
+      <g class="a-flap"><use href="#bird" transform="translate(300 170)"/></g>
+      <g class="a-flap f2"><use href="#bird" transform="translate(334 150) scale(.8)"/></g>
+      <g class="a-flap f3"><use href="#bird" transform="translate(362 182) scale(.7)"/></g>
+    </g>
+
+    <g class="s-far"><path d="M0 380 C120 330 220 350 320 372 C430 396 520 340 640 352 C760 364 860 320 980 342 C1080 360 1140 350 1200 340 V560 H0Z" fill="#e0705a" opacity=".85"/></g>
+    <g class="s-mid"><path d="M0 420 C140 392 260 404 380 418 C520 434 640 400 780 404 C920 410 1040 390 1200 400 V560 H0Z" fill="#4f8a5e"/></g>
+    <path d="M0 452 C200 440 380 448 600 452 C820 456 1000 444 1200 448 V520 H0Z" fill="#2f6b4f" stroke="#3b2314" stroke-width="3"/>
+
+    <g class="s-pines">
+      <g transform="translate(70 430) scale(1.1)"><g class="a-sway"><use href="#pine"/></g></g>
+      <g transform="translate(150 438) scale(.8)"><g class="a-sway d2"><use href="#pine"/></g></g>
+      <g transform="translate(1110 432) scale(1.15)"><g class="a-sway d3"><use href="#pine"/></g></g>
+      <g transform="translate(1040 442) scale(.75)"><g class="a-sway"><use href="#pine"/></g></g>
+    </g>
+
+    <!-- lampionnen -->
+    <path d="M150 340 Q 420 410 690 360" fill="none" stroke="#3b2314" stroke-width="2.5"/>
+    <g class="lamps">
+      <circle class="lamp" cx="210" cy="362" r="9" fill="#d9412b" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="270" cy="377" r="9" fill="#f2b134" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="330" cy="387" r="9" fill="#3d8fa8" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="390" cy="391" r="9" fill="#fffaf0" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="450" cy="389" r="9" fill="#d9412b" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="510" cy="383" r="9" fill="#f2b134" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="570" cy="374" r="9" fill="#3d8fa8" stroke="#3b2314" stroke-width="2"/>
+      <circle class="lamp" cx="630" cy="364" r="9" fill="#fffaf0" stroke="#3b2314" stroke-width="2"/>
+    </g>
+
+    <!-- tent -->
+    <g transform="translate(250 470)"><g class="s-tent" stroke="#3b2314" stroke-width="3.5" stroke-linejoin="round">
+      <path d="M-110 0 L0 -130 L110 0Z" fill="#ff8a4c"/>
+      <path d="M0 -130 L-30 0 H30Z" fill="#d9412b"/>
+      <path class="a-flapdoor" d="M0 -130 L45 0 L22 0Z" fill="#fff3d6"/>
+      <path d="M0 -130 V-150" />
+      <path class="a-flag" d="M0 -150 L22 -142 L0 -136" fill="#f2b134"/>
+      <path d="M-110 0 L-140 10 M110 0 L140 10" />
+    </g></g>
+
+    <!-- picknickmand met stokbroden -->
+    <g transform="translate(470 482)"><g class="s-basket" stroke="#3b2314" stroke-width="3" stroke-linejoin="round">
+      <g class="a-wiggle"><g transform="rotate(-24)">
+        <rect x="-18" y="-112" width="22" height="104" rx="11" fill="#d99a4e"/>
+        <path d="M-12 -96 l10 7 M-12 -76 l10 7 M-12 -56 l10 7 M-12 -36 l10 7" stroke="#f6d79c" stroke-width="4" stroke-linecap="round"/>
+      </g></g>
+      <g class="a-wiggle w2"><g transform="rotate(14)">
+        <rect x="6" y="-104" width="20" height="96" rx="10" fill="#e3a65a"/>
+        <path d="M11 -90 l10 7 M11 -70 l10 7 M11 -50 l10 7" stroke="#f6d79c" stroke-width="4" stroke-linecap="round"/>
+      </g></g>
+      <path d="M-46 -24 H46 L38 14 H-38Z" fill="#c98a3c"/>
+      <path d="M-42 -10 H42 M-40 2 H40" stroke-width="2"/>
+      <path d="M-46 -24 H46 V-14 H-46Z" fill="#d9412b"/>
+      <path d="M-34 -24 V-14 M-14 -24 V-14 M6 -24 V-14 M26 -24 V-14" stroke="#fffaf0" stroke-width="5"/>
+      <path d="M-30 -26 Q0 -66 30 -26" fill="none" stroke-width="4"/>
+    </g></g>
+
+    <!-- barbecue met rook -->
+    <g transform="translate(640 486)"><g class="s-bbq" stroke="#3b2314" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <g class="smoke" stroke="none" fill="#fff3d6">
+        <circle class="puff" cx="0" cy="-52" r="9"/>
+        <circle class="puff p2" cx="4" cy="-52" r="11"/>
+        <circle class="puff p3" cx="-3" cy="-52" r="8"/>
+      </g>
+      <path d="M-16 -8 L-24 14 M16 -8 L24 14 M0 -6 V14"/>
+      <path d="M-28 -34 H28 Q28 -6 0 -6 Q-28 -6 -28 -34Z" fill="#3b2314"/>
+      <path d="M-30 -36 H30" stroke-width="4"/>
+      <path class="a-ember" d="M-18 -40 h8 M-4 -42 h8 M10 -40 h8" stroke="#ff8a4c" stroke-width="5"/>
+    </g></g>
+
+    <!-- caravan -->
+    <g transform="translate(820 476)"><g class="s-caravan"><g class="a-bob" stroke="#3b2314" stroke-width="3.5" stroke-linejoin="round">
+      <path d="M-10 -128 H-150 L-160 -100 H-20Z" fill="#fffaf0"/>
+      <path d="M-38 -128 L-48 -100 M-66 -128 L-76 -100 M-94 -128 L-104 -100 M-122 -128 L-132 -100" stroke="#d9412b" stroke-width="12"/>
+      <path d="M-10 -128 H-150 L-160 -100 H-20Z" fill="none"/>
+      <path d="M-155 -100 V-6 M-25 -100 V-6" stroke-width="3"/>
+      <path d="M-10 -14 V-120 Q-10 -150 30 -152 H190 Q240 -150 246 -96 V-14Z" fill="#fffaf0"/>
+      <path d="M-10 -70 H246 V-50 H-10Z" fill="#d9412b"/>
+      <path d="M-10 -50 H246 V-42 H-10Z" fill="#f2b134"/>
+      <rect x="20" y="-130" width="70" height="40" rx="12" fill="#3d8fa8"/>
+      <path class="a-shine" d="M30 -122 L50 -100" stroke="#d3ecf2" stroke-width="4" stroke-linecap="round"/>
+      <rect x="150" y="-128" width="62" height="34" rx="10" fill="#3d8fa8"/>
+      <rect class="a-window" x="150" y="-128" width="62" height="34" rx="10" fill="#ffe39a" stroke="none" opacity="0"/>
+      <rect x="110" y="-118" width="30" height="100" rx="6" fill="#f2b134"/>
+      <circle cx="132" cy="-66" r="3" fill="#3b2314"/>
+      <path d="M246 -24 H292" stroke-width="5"/>
+      <circle cx="292" cy="-22" r="5" fill="#3b2314"/>
+      <g transform="translate(-95 -4)">
+        <path d="M-20 0 L16 -46 M20 0 L-14 -46" />
+        <path d="M-16 -34 H16 V-22 H-16Z" fill="#3d8fa8"/>
+        <path d="M-20 -46 H22 V-64 H-20Z" fill="#3d8fa8"/>
+      </g>
+    </g>
+    <g transform="translate(60 -10)"><g class="s-wheel">
+      <circle r="22" fill="#3b2314"/>
+      <circle r="11" fill="#fffaf0"/>
+      <path d="M-11 0 H11 M0 -11 V11" stroke="#3b2314" stroke-width="3"/>
+    </g></g>
+    </g></g>
+
+    <!-- flamingo -->
+    <g transform="translate(1000 480)"><g class="s-flamingo" stroke="#3b2314" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M0 0 V-44 M6 0 L4 -44" fill="none"/>
+      <ellipse cx="6" cy="-60" rx="30" ry="18" fill="#ff8fa3"/>
+      <g class="a-nod">
+        <path d="M30 -64 C46 -84 20 -110 34 -120" fill="none" stroke="#ff8fa3" stroke-width="9"/>
+        <circle cx="36" cy="-122" r="9" fill="#ff8fa3"/>
+        <path d="M44 -122 l12 6 -12 3" fill="#3b2314"/>
+      </g>
+    </g></g>
+  </svg>
+  <div class="sign">
+    <span class="eyebrow">Zomer 2027 · receptie geopend</span>
+    <h1>Camping De<br>Gouden Baguette</h1>
+    <div class="stars" aria-label="vijf sterren"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+  </div>
+</header>
+
+<div class="gate" id="gate" hidden>
+  <div class="gate-box">
+    <div class="barrier" aria-hidden="true"><span class="post"></span><span class="arm"></span></div>
+    <form class="gate-card" id="gateForm" novalidate>
+      <span class="eyebrow">Receptie · even inchecken</span>
+      <h2>Welkom op de camping!</h2>
+      <p id="gateMsg">Vul je e-mailadres in. Je krijgt een mail met een inloglink en een code, geen wachtwoord nodig. Alleen de organisatie ziet je adres.</p>
+      <label for="gateEmail">E-mailadres</label>
+      <input class="text-in" type="email" id="gateEmail" autocomplete="email" inputmode="email" placeholder="naam@voorbeeld.nl" required>
+      <div id="codeWrap" hidden style="display:flex;flex-direction:column;gap:6px">
+        <label for="gateCode">Code uit de mail</label>
+        <input class="text-in" id="gateCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 cijfers" style="text-align:center;font-size:24px;letter-spacing:.3em">
+        <button type="button" class="chip" id="gateRestart" style="align-self:flex-start">Ander e-mailadres</button>
+      </div>
+      <p class="gate-err" id="gateErr" role="alert"></p>
+      <button class="btn" type="submit" id="gateBtn">Stuur inloglink</button>
+    </form>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="nav" aria-label="Onderdelen">
+    <a href="#kaart">Gastenkaart</a>
+    <a href="#prikbord">Prikbord</a>
+    <span title="Komt in een volgende fase">Stemhokje · binnenkort</span>
+  </nav>
+
+  <div class="intro">
+    <p class="lead">Hoi! Lijkt het je leuk om volgend jaar met een hele groep samen op de camping te staan?</p>
+    <p>Overdag wat spelletjes doen of samen ergens op uit, de kinderen die over de camping rennen of voor de tent spelen, en 's avonds de barbecue aan met een drankje erbij. Wij zouden dat heel gezellig vinden, en we hopen dat jij er ook zin in hebt.</p>
+    <p>Voordat we iets gaan zoeken, willen we eerst weten wie er mee wil en wat iedereen fijn vindt: hoe lang je weg wilt, hoe ver je wilt rijden, wat voor plek je leuk vindt en welke weken je kunt. Je zit nog nergens aan vast. Als we alles op een rijtje hebben, komen we met een paar opties en kiezen we samen.</p>
+    <p class="small">Vul hieronder een kaart in voor jezelf, met je partner of met het hele gezin. Je kunt hem later nog aanpassen.</p>
+  </div>
+
+  <div class="status" id="status" data-kind="warn">De receptie wordt geopend…</div>
+  <p class="checked" id="checked" hidden></p>
+
+  <!-- ===================== GASTENKAART ===================== -->
+  <section class="card" id="kaart" aria-labelledby="kaart-h">
+    <div class="card-head">
+      <div>
+        <h2 id="kaart-h">Gastenkaart</h2>
+        <p>Eén kaart per persoon, stel of gezin. Zet hieronder iedereen die meekomt, ook de kinderen.</p>
+      </div>
+      <div class="stamp">Seizoen<b>2027</b>Nº <span id="cardNo">—</span></div>
+    </div>
+
+    <form id="form" novalidate>
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 1</span><h3>Wie zijn jullie?</h3><small>Jezelf, je partner, de kinderen: iedereen die op deze kaart meekomt. Zo zien de anderen jullie op het prikbord.</small></div>
+        <div class="q-body">
+          <div class="people" id="people"></div>
+          <div class="people-actions">
+            <button type="button" class="chip" id="addPerson">+ Nog iemand toevoegen</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 2</span><h3>Gaan jullie mee?</h3></div>
+        <div class="q-body">
+          <div class="choices big" id="going" role="group" aria-label="Ga je mee">
+            <button type="button" class="chip" data-v="ja">Ja, ik pak de tas al in</button>
+            <button type="button" class="chip" data-v="misschien">Misschien</button>
+            <button type="button" class="chip" data-v="nee">Nee, ik pas</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 3</span><h3>Hoeveel dagen wil je weg?</h3><small>Eén stokbrood per dag.</small></div>
+        <div class="q-body slider-wrap">
+          <div class="readout"><strong id="daysOut">7</strong><em id="daysWord">dagen, een weekje dus</em></div>
+          <input type="range" id="days" min="2" max="21" step="1" value="7" aria-describedby="daysWord">
+          <div class="ticks"><span>2</span><span>weekend</span><span>week</span><span>2 weken</span><span>21</span></div>
+          <div class="loaves" id="loaves" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 4</span><h3>Waar woon je en hoe ver wil je rijden?</h3><small>Enkele reis vanaf huis, zonder pauzes. Zo kunnen we straks zien wat voor iedereen binnen bereik ligt.</small></div>
+        <div class="q-body slider-wrap">
+          <div class="other-in"><label for="home">Woonplaats:</label><input class="text-in" id="home" maxlength="60" autocomplete="address-level2" placeholder="Bijv. Amersfoort"></div>
+          <div class="readout"><strong id="driveOut">4 uur</strong><em id="driveWord"></em></div>
+          <input type="range" id="drive" min="1" max="14" step="0.5" value="4" aria-describedby="driveWord">
+          <div class="ticks"><span>1 u</span><span>4 u</span><span>7 u</span><span>10 u</span><span>14+ u</span></div>
+          <div class="hint" id="driveHint"></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 5</span><h3>Nederland of buitenland?</h3><small>Kies alles wat je leuk vindt.</small></div>
+        <div class="q-body">
+          <div class="choices" id="abroad" role="group" aria-label="Nederland of buitenland">
+            <button type="button" class="chip" data-v="nl">Gewoon in Nederland</button>
+            <button type="button" class="chip" data-v="grens">Net over de grens (België, Duitsland)</button>
+            <button type="button" class="chip" data-v="ver">Echt het buitenland in</button>
+            <button type="button" class="chip" data-v="maakt-niet-uit">Maakt me niet uit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 6</span><h3>&ldquo;Kamperen vind ik niks. Ik zit liever met z'n allen in een huisje.&rdquo;</h3><small>Ben jij dit? Zeg het gerust. Dan kijken we ook naar een groot vakantiehuis voor iedereen.</small></div>
+        <div class="q-body">
+          <div class="tiles" id="vibe" role="group" aria-label="Kamperen of een huisje">
+            <button type="button" class="tile" data-v="huisje" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round"><rect x="6" y="14" width="32" height="18" fill="#fffaf0"/><path d="M2 15 L22 2 L42 15Z" fill="#d9412b"/><rect x="10" y="18" width="7" height="6" fill="#3d8fa8"/><rect x="27" y="18" width="7" height="6" fill="#3d8fa8"/><rect x="19" y="22" width="6" height="10" fill="#f2b134"/></g></svg><div><b>Ja, dat ben ik</b><span>Samen weg is top, maar dan wel met een echt bed en een eigen douche.</span></div></button>
+            <button type="button" class="tile" data-v="kamperen" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round"><path d="M4 32 L22 6 L40 32Z" fill="#ff8a4c"/><path d="M22 6 L17 32 H27Z" fill="#d9412b"/></g></svg><div><b>Nee hoor, ik kampeer graag</b><span>Geef mij maar een tent, een gasstelletje en een klapstoel.</span></div></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 7</span><h3>Waar wil je slapen?</h3><small>Kies alles wat je leuk vindt.</small></div>
+        <div class="q-body"><div class="tiles" id="stays" role="group" aria-label="Soort verblijf"></div></div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 8</span><h3>Wat heb je zelf?</h3><small>Handig om te weten wie wat kan meenemen.</small></div>
+        <div class="q-body">
+          <div class="choices" id="gear" role="group" aria-label="Eigen kampeerspullen">
+            <button type="button" class="chip" data-v="tent">Tent</button>
+            <button type="button" class="chip" data-v="caravan">Caravan</button>
+            <button type="button" class="chip" data-v="camper">Camper</button>
+            <button type="button" class="chip" data-v="vouwwagen">Vouwwagen</button>
+            <button type="button" class="chip" data-v="daktent">Daktent</button>
+            <button type="button" class="chip" data-v="luchtbed">Alleen een luchtbed en goede moed</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 9</span><h3>Wat moet de camping hebben?</h3><small>Optioneel. Dit helpt straks bij het kiezen.</small></div>
+        <div class="q-body">
+          <div class="choices" id="wants" role="group" aria-label="Wensen voor de camping">
+            <button type="button" class="chip" data-v="zwembad">Zwembad</button>
+            <button type="button" class="chip" data-v="water">Aan meer of rivier</button>
+            <button type="button" class="chip" data-v="strand">Strand en zee</button>
+            <button type="button" class="chip" data-v="bergen">Bergen of heuvels</button>
+            <button type="button" class="chip" data-v="bakker">Bakker op de camping</button>
+            <button type="button" class="chip" data-v="bar">Barretje of restaurant</button>
+            <button type="button" class="chip" data-v="rust">Rustig, geen animatie</button>
+            <button type="button" class="chip" data-v="animatie">Animatie en bingo</button>
+            <button type="button" class="chip" data-v="kinderen">Kindvriendelijk</button>
+            <button type="button" class="chip" data-v="fiets">Fietsen en wandelen</button>
+            <button type="button" class="chip" data-v="kampvuur">Kampvuur mag</button>
+          </div>
+          <div class="other-in"><label for="wantsOther">Zelf iets toevoegen:</label><input class="text-in" id="wantsOther" maxlength="120" placeholder="Bijv. een midgetgolfbaan of goede wifi"></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 10</span><h3>Welke weken komen je goed uit?</h3><small>Kies een kleur en tik op de weken. Nog een keer tikken haalt de kleur weg.</small></div>
+        <div class="q-body">
+          <div class="brushes" id="brushes" role="group" aria-label="Kleur kiezen">
+            <span>Kleur:</span>
+            <button type="button" class="brush" data-s="top" aria-pressed="true"><i class="dot top"></i>Komt top uit</button>
+            <button type="button" class="brush" data-s="kan" aria-pressed="false"><i class="dot kan"></i>Kan ook</button>
+            <button type="button" class="brush" data-s="nee" aria-pressed="false"><i class="dot nee"></i>Kan echt niet</button>
+            <button type="button" class="brush ghost" id="clearWeeks">Kalender leegmaken</button>
+          </div>
+          <div class="legend">
+            <span class="sv"><i class="on">N</i><i class="on">M</i><i class="on">Z</i></span> schoolvakantie per regio (noord, midden, zuid)
+            <span class="tag vac">Zomervakantie</span> welke vakantie
+            <span class="tag">Pasen</span> feestdag
+          </div>
+          <div class="cal-scroll"><div class="months" id="cal"></div></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="q-label"><span class="q-num">Vraag 11</span><h3>Nog iets voor de receptie?</h3><small>Wensen, twijfels, allergieën, ideeën voor een bestemming.</small></div>
+        <div class="q-body"><textarea class="text-in" id="note" maxlength="800" placeholder="Bijv. als het maar niet weer naar die camping met de mieren is."></textarea></div>
+      </div>
+
+      <div class="save-row">
+        <p id="saveInfo">Je kaart is nog niet opgeslagen.</p>
+        <button class="btn" id="saveBtn" type="submit">Stempel mijn kaart</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ===================== PRIKBORD ===================== -->
+  <section class="card" id="prikbord" aria-labelledby="prik-h">
+    <div class="card-head">
+      <div>
+        <h2 id="prik-h">Het prikbord</h2>
+        <p id="prik-sub">Wie er meegaat. Dit wordt vanzelf bijgewerkt.</p>
+      </div>
+      <div class="stamp">Gaan mee<b id="guestCount">0</b>personen</div>
+    </div>
+    <div id="board"></div>
+  </section>
+
+  <section class="card later" aria-labelledby="later-h">
+    <h2 id="later-h" class="card-head" style="justify-content:center;font-family:var(--display);font-weight:400;font-size:30px">Het stemhokje</h2>
+    <p style="margin:0 auto;max-width:56ch;color:var(--ink-soft)">Zodra iedereen zijn kaart heeft gestempeld, kiezen we hier samen een paar campings en data uit. Dan kun je via deze zelfde link stemmen.</p>
+  </section>
+
+  <p class="foot">Schoolvakanties 2027 volgens Rijksoverheid en ANWB. De zomervakantie ligt vast. Voorjaars-, mei- en herfstvakantie zijn adviesdata; scholen kunnen afwijken.</p>
+</main>
+
+<script type="module">
+import { db as store, auth, makeUser, DEMO } from "./backend.js";
+(() => {
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- vaste gegevens ---------- */
+const MONTHS = ["jan","feb","mrt","apr","mei","jun","jul","aug","sep","okt","nov","dec"];
+const MONTHS_LONG = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+const D = s => new Date(s + "T12:00:00Z");
+const WEEKS = [];
+for (let n = 6; n <= 43; n++) {
+  const mon = new Date(Date.UTC(2027, 0, 4 + 7 * (n - 1), 12));
+  const sun = new Date(mon.getTime() + 6 * 864e5);
+  const thu = new Date(mon.getTime() + 3 * 864e5);
+  WEEKS.push({ key: "2027-W" + String(n).padStart(2, "0"), n, mon, sun, month: thu.getUTCMonth() });
+}
+const HOLS = [
+  { l: "Pasen", f: "2027-03-28", t: "2027-03-29" },
+  { l: "Koningsdag", f: "2027-04-27", t: "2027-04-27" },
+  { l: "Bevrijdingsdag", f: "2027-05-05", t: "2027-05-05" },
+  { l: "Hemelvaart", f: "2027-05-06", t: "2027-05-06" },
+  { l: "Pinksteren", f: "2027-05-16", t: "2027-05-17" },
+];
+const VACS = [
+  { l: "Voorjaarsvakantie", N: ["2027-02-20", "2027-02-28"], M: ["2027-02-20", "2027-02-28"], Z: ["2027-02-13", "2027-02-21"] },
+  { l: "Meivakantie", N: ["2027-04-24", "2027-05-02"], M: ["2027-04-24", "2027-05-02"], Z: ["2027-04-24", "2027-05-02"] },
+  { l: "Zomervakantie", N: ["2027-07-10", "2027-08-22"], M: ["2027-07-17", "2027-08-29"], Z: ["2027-07-24", "2027-09-05"] },
+  { l: "Herfstvakantie", N: ["2027-10-16", "2027-10-24"], M: ["2027-10-16", "2027-10-24"], Z: ["2027-10-23", "2027-10-31"] },
+];
+const REGIONS = { N: "noord", M: "midden", Z: "zuid" };
+const overlaps = (w, f, t) => D(f) <= w.sun && D(t) >= w.mon;
+const fmtRange = w => {
+  const a = w.mon, b = w.sun;
+  return a.getUTCMonth() === b.getUTCMonth()
+    ? `${a.getUTCDate()} – ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}`
+    : `${a.getUTCDate()} ${MONTHS[a.getUTCMonth()]} – ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}`;
+};
+
+const STAYS = [
+  { v: "tent", b: "Eigen tent", s: "Klassiek. Haringen erin en gaan.", i: '<path d="M4 32 L22 6 L40 32Z" fill="#ff8a4c"/><path d="M22 6 L17 32 H27Z" fill="#d9412b"/>' },
+  { v: "caravan", b: "Caravan", s: "Met voortent, klapstoeltjes en een koffiezetapparaat.", i: '<path d="M4 28 V10 Q4 4 10 4 H32 Q40 4 40 14 V28Z" fill="#fffaf0"/><rect x="4" y="16" width="36" height="4" fill="#d9412b" stroke="none"/><rect x="9" y="8" width="10" height="6" rx="2" fill="#3d8fa8"/><circle cx="16" cy="30" r="4" fill="#3b2314"/>' },
+  { v: "camper", b: "Camper", s: "Een hotel op wielen. Elke dag een ander uitzicht.", i: '<path d="M3 28 V8 H30 L40 18 V28Z" fill="#fffaf0"/><path d="M30 8 L40 18 H30Z" fill="#3d8fa8"/><rect x="3" y="18" width="37" height="3" fill="#f2b134" stroke="none"/><circle cx="11" cy="30" r="4" fill="#3b2314"/><circle cx="32" cy="30" r="4" fill="#3b2314"/>' },
+  { v: "safaritent", b: "Safaritent / glamping", s: "Tent met echte bedden en vaak een eigen keukentje.", i: '<path d="M3 32 V16 L22 6 L41 16 V32Z" fill="#e8d3a6"/><path d="M17 32 V20 H27 V32" fill="#7a5a43"/><path d="M3 16 H41" />' },
+  { v: "stacaravan", b: "Stacaravan of chalet", s: "Keuken, douche en wc. Kamperen met een dak.", i: '<rect x="3" y="12" width="38" height="18" rx="2" fill="#cfe3c9"/><path d="M1 12 L22 4 L43 12Z" fill="#d9412b"/><rect x="8" y="17" width="9" height="7" fill="#3d8fa8"/><rect x="26" y="17" width="8" height="13" fill="#f2b134"/>' },
+  { v: "lodge", b: "Bungalow of lodge", s: "Eigenlijk gewoon een vakantiehuisje op de camping.", i: '<rect x="6" y="14" width="32" height="18" fill="#d99a4e"/><path d="M2 15 L22 2 L42 15Z" fill="#2f6b4f"/><rect x="18" y="20" width="8" height="12" fill="#fffaf0"/>' },
+  { v: "trekkershut", b: "Trekkershut", s: "Simpel houten hutje. Slaapzak mee, verder niks.", i: '<path d="M6 32 V14 L22 4 L38 14 V32Z" fill="#c98a3c"/><path d="M6 20 H38 M6 26 H38" /><rect x="18" y="22" width="8" height="10" fill="#3b2314"/>' },
+  { v: "bijzonder", b: "Iets geks", s: "Boomhut, tipi, pipowagen of een bubbeltent.", i: '<path d="M10 32 L22 3 L34 32Z" fill="#fff3d6"/><path d="M22 3 L18 32 M22 3 L26 32" /><path d="M15 20 H29" stroke="#d9412b" stroke-width="3"/><path d="M19 3 L25 3" />' },
+];
+const STAY_LABEL = Object.fromEntries(STAYS.map(s => [s.v, s.b]));
+const ABROAD_LABEL = { nl: "Nederland", grens: "Net over de grens", ver: "Echt buitenland", "maakt-niet-uit": "Maakt niet uit" };
+const GEAR_LABEL = { tent: "tent", caravan: "caravan", camper: "camper", vouwwagen: "vouwwagen", daktent: "daktent", luchtbed: "luchtbed" };
+const WANT_LABEL = Object.fromEntries($$("#wants .chip").map(b => [b.dataset.v, b.textContent]));
+const GOING_LABEL = { ja: "Gaat mee", misschien: "Misschien", nee: "Past" };
+
+const DRIVE_ZONES = [
+  { max: 2, t: "Veluwe, Drenthe, Zeeland, Zuid-Limburg, de Belgische Kempen." },
+  { max: 4, t: "Ardennen, Eifel, Sauerland, Belgische kust, Luxemburg." },
+  { max: 6, t: "Moezel, Hunsrück, Champagne, Normandische kust." },
+  { max: 9, t: "Elzas, Zwarte Woud, Bourgogne, Bretagne, Beieren." },
+  { max: 12, t: "Jura, Dordogne, Ardèche, Tirol, het Gardameer." },
+  { max: 99, t: "Provence, Côte d'Azur, Toscane, Noord-Spanje. Of gewoon alles." },
+];
+const driveZone = h => DRIVE_ZONES.find(z => h <= z.max).t;
+const driveText = h => h >= 14 ? "14+ uur" : (h % 1 ? `${Math.floor(h)},5 uur` : `${h} uur`);
+const daysWord = d => d <= 3 ? "dagen, een lang weekend" : d <= 5 ? "dagen, een midweek" : d <= 8 ? "dagen, een weekje dus" : d <= 12 ? "dagen, ruim een week" : d <= 16 ? "dagen, twee weken" : "dagen, een flinke reis";
+
+/* ---------- formulierstatus ---------- */
+const blank = () => ({ people: [{ n: "", kid: false }], going: "", home: "", days: 7, driveHours: 4, abroad: [], vibe: "", stays: [], gear: [], wants: [], wantsOther: "", weeks: {}, note: "" });
+const VIBE_LABEL = { huisje: "Liever een huisje", kamperen: "Kampeert graag", "maakt-niet-uit": "Maakt niet uit" };
+/* oudere kaarten hadden één naam en losse aantallen */
+const normalize = d => {
+  const f = { ...blank(), ...JSON.parse(JSON.stringify(d || {})) };
+  if (!Array.isArray(f.people) || !f.people.length) {
+    f.people = [{ n: f.name || "", kid: false }];
+    for (let i = 1; i < (f.adults || 1); i++) f.people.push({ n: "", kid: false });
+    for (let i = 0; i < (f.kids || 0); i++) f.people.push({ n: "", kid: true });
+  }
+  f.people = f.people.slice(0, 12).map(p => ({ n: String(p.n || ""), kid: !!p.kid }));
+  if (!Array.isArray(f.abroad)) f.abroad = f.abroad ? [f.abroad] : [];
+  delete f.name; delete f.adults; delete f.kids; delete f.dogs;
+  return f;
+};
+const joinNames = ns => ns.length <= 1 ? (ns[0] || "") : ns.slice(0, -1).join(", ") + " & " + ns[ns.length - 1];
+let F = blank();
+let dirty = false;
+let brush = "top";
+const DRAFT_KEY = "gb-draft-2027";
+try { const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); if (d && typeof d === "object") { F = normalize(d); dirty = true; } } catch (e) {}
+const saveDraft = () => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(F)); } catch (e) {} };
+const touch = () => { dirty = true; saveDraft(); $("#saveInfo").textContent = "Je hebt wijzigingen die nog niet zijn opgeslagen."; };
+
+/* tiles */
+$("#stays").innerHTML = STAYS.map(s => `<button type="button" class="tile" data-v="${s.v}" aria-pressed="false"><svg viewBox="0 0 44 36" aria-hidden="true"><g stroke="#3b2314" stroke-width="2" stroke-linejoin="round" fill="none">${s.i}</g></svg><div><b>${s.b}</b><span>${s.s}</span></div></button>`).join("");
+
+/* calendar */
+function weekCell(w, inner, attrs = "") {
+  const vacs = VACS.filter(v => Object.keys(REGIONS).some(r => overlaps(w, ...v[r])));
+  const tags = vacs.map(v => `<span class="tag vac">${v.l}</span>`).join("") + HOLS.filter(h => overlaps(w, h.f, h.t)).map(h => `<span class="tag">${h.l}</span>`).join("");
+  const sv = Object.entries(REGIONS).map(([r, rn]) => {
+    const v = vacs.find(v => overlaps(w, ...v[r]));
+    return `<i class="${v ? "on" : ""}" title="${v ? v.l + " regio " + rn : "Geen schoolvakantie regio " + rn}">${r}</i>`;
+  }).join("");
+  return `<button type="button" class="wk" data-k="${w.key}" ${attrs}><span class="no">wk ${w.n}</span><span class="range">${fmtRange(w)}</span>${inner}<span class="tags">${tags}<span class="sv">${sv}</span></span></button>`;
+}
+function monthsHTML(cellFn) {
+  const groups = {};
+  WEEKS.forEach(w => (groups[w.month] ||= []).push(w));
+  return Object.entries(groups).map(([m, ws]) => `<div class="month"><h4>${MONTHS_LONG[m]}</h4><div class="weeks">${ws.map(cellFn).join("")}</div></div>`).join("");
+}
+$("#cal").innerHTML = monthsHTML(w => weekCell(w, '<span class="mark" aria-hidden="true"></span>'));
+
+function paintPeople() {
+  const one = F.people.length === 1;
+  $("#people").innerHTML = F.people.map((p, i) => `<div class="person" data-i="${i}">
+    <input class="text-in" id="person-${i}" maxlength="30" placeholder="${i === 0 ? "Jouw naam" : "Naam"}" aria-label="Naam persoon ${i + 1}" value="${esc(p.n)}">
+    <div class="seg" role="group" aria-label="Volwassene of kind"><button type="button" data-kid="0" aria-pressed="${!p.kid}">Volwassene</button><button type="button" data-kid="1" aria-pressed="${p.kid}">Kind</button></div>
+    <button type="button" class="x" data-rm aria-label="Verwijder persoon ${i + 1}" ${one ? "disabled" : ""}>×</button>
+  </div>`).join("");
+}
+function paintForm() {
+  paintPeople();
+  $("#home").value = F.home;
+  $("#wantsOther").value = F.wantsOther;
+  $$("#going .chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === F.going)));
+  $$("#abroad .chip").forEach(b => b.setAttribute("aria-pressed", String(F.abroad.includes(b.dataset.v))));
+  $$("#vibe .tile").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === F.vibe)));
+  $$("#stays .tile").forEach(b => b.setAttribute("aria-pressed", String(F.stays.includes(b.dataset.v))));
+  $$("#gear .chip").forEach(b => b.setAttribute("aria-pressed", String(F.gear.includes(b.dataset.v))));
+  $$("#wants .chip").forEach(b => b.setAttribute("aria-pressed", String(F.wants.includes(b.dataset.v))));
+  $("#days").value = F.days; $("#drive").value = F.driveHours;
+  $("#note").value = F.note;
+  paintSliders(); paintWeeks();
+}
+function paintSliders() {
+  $("#daysOut").textContent = F.days;
+  $("#daysWord").textContent = daysWord(F.days);
+  $("#loaves").innerHTML = '<i class="loaf"></i>'.repeat(F.days);
+  $("#driveOut").textContent = driveText(F.driveHours);
+  $("#driveWord").textContent = "enkele reis";
+  const from = F.home.trim();
+  $("#driveHint").innerHTML = `<b>Ongeveer binnen bereik${from ? " vanaf " + esc(from) : ""}</b>${esc(driveZone(F.driveHours))}<br><small>Grove schatting vanaf het midden van het land. Woon je in het noorden of zuiden, dan schuift het een uurtje op.</small>`;
+}
+function paintWeeks() {
+  $$("#cal .wk").forEach(b => {
+    const s = F.weeks[b.dataset.k] || "";
+    b.dataset.s = s;
+    b.setAttribute("aria-label", `Week ${b.dataset.k.slice(-2)}: ${s === "top" ? "komt top uit" : s === "kan" ? "kan ook" : s === "nee" ? "kan niet" : "niet ingevuld"}`);
+  });
+}
+
+/* events */
+const single = (sel, key) => $(sel).addEventListener("click", e => {
+  const b = e.target.closest("[data-v]"); if (!b) return;
+  F[key] = F[key] === b.dataset.v ? "" : b.dataset.v; touch(); paintForm();
+});
+const multi = (sel, key) => $(sel).addEventListener("click", e => {
+  const b = e.target.closest("[data-v]"); if (!b) return;
+  const v = b.dataset.v; F[key] = F[key].includes(v) ? F[key].filter(x => x !== v) : [...F[key], v]; touch(); paintForm();
+});
+single("#going", "going"); single("#vibe", "vibe"); multi("#abroad", "abroad");
+multi("#stays", "stays"); multi("#gear", "gear"); multi("#wants", "wants");
+$$("[data-step]").forEach(b => b.addEventListener("click", () => {
+  const k = b.dataset.step;
+  F[k] = Math.max(0, Math.min(12, F[k] + Number(b.dataset.d))); touch(); $("#" + k).textContent = F[k];
+}));
+$("#people").addEventListener("input", e => {
+  const row = e.target.closest(".person"); if (!row) return;
+  F.people[Number(row.dataset.i)].n = e.target.value; touch();
+});
+$("#people").addEventListener("click", e => {
+  const row = e.target.closest(".person"); if (!row) return;
+  const i = Number(row.dataset.i);
+  const seg = e.target.closest("[data-kid]");
+  if (seg) { F.people[i].kid = seg.dataset.kid === "1"; touch(); paintPeople(); return; }
+  if (e.target.closest("[data-rm]") && F.people.length > 1) { F.people.splice(i, 1); touch(); paintPeople(); }
+});
+$("#addPerson").addEventListener("click", () => {
+  if (F.people.length >= 12) return;
+  F.people.push({ n: "", kid: false }); touch(); paintPeople();
+  $("#person-" + (F.people.length - 1)).focus();
+});
+$("#home").addEventListener("input", e => { F.home = e.target.value; touch(); paintSliders(); });
+$("#wantsOther").addEventListener("input", e => { F.wantsOther = e.target.value; touch(); });
+$("#note").addEventListener("input", e => { F.note = e.target.value; touch(); });
+$("#days").addEventListener("input", e => { F.days = Number(e.target.value); touch(); paintSliders(); });
+$("#drive").addEventListener("input", e => { F.driveHours = Number(e.target.value); touch(); paintSliders(); });
+$("#brushes").addEventListener("click", e => {
+  const b = e.target.closest(".brush[data-s]"); if (!b) return;
+  brush = b.dataset.s; $$("#brushes .brush[data-s]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+});
+$("#clearWeeks").addEventListener("click", () => { F.weeks = {}; touch(); paintWeeks(); });
+$("#cal").addEventListener("click", e => {
+  const b = e.target.closest(".wk"); if (!b) return;
+  const k = b.dataset.k;
+  if (F.weeks[k] === brush) delete F.weeks[k]; else F.weeks[k] = brush;
+  F.weeks = { ...F.weeks }; touch(); paintWeeks();
+});
+
+/* ---------- database ---------- */
+let db = null, user = null, uid = null, canWrite = true;
+let ALL = {}, GUESTS = {}, EMAILS = {}, isOwner = false;
+const status = (kind, html) => { const s = $("#status"); s.dataset.kind = kind; s.innerHTML = html; };
+
+$("#form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const info = $("#saveInfo");
+  const people = F.people.map(p => ({ n: p.n.trim().slice(0, 30), kid: p.kid })).filter(p => p.n);
+  if (!people.length) { info.textContent = "Vul eerst bij vraag 1 minstens één naam in."; $("#person-0").focus(); return; }
+  if (!F.going) { info.textContent = "Geef bij vraag 2 aan of jullie meegaan."; return; }
+  if (!db || !uid) { info.textContent = "Log eerst in bovenaan de pagina. Je kaart blijft in deze browser bewaard."; return; }
+  if (!canWrite) { info.textContent = "Je hebt alleen leesrechten. Vraag de organisator om je uit te nodigen als bewerker."; return; }
+  const btn = $("#saveBtn"); btn.disabled = true; info.textContent = "Bezig met stempelen…";
+  const body = {
+    people, going: F.going, home: F.home.trim().slice(0, 60),
+    days: F.days, driveHours: F.driveHours, abroad: F.abroad, vibe: F.vibe,
+    stays: F.stays, gear: F.gear, wants: F.wants, wantsOther: F.wantsOther.trim().slice(0, 120), weeks: F.weeks,
+    note: F.note.slice(0, 800), updatedAt: new Date().toISOString(),
+  };
+  try {
+    await db.doc("responses/" + uid).set(body);
+    await db.doc("guests/" + uid).set({ names: people.map(p => p.n), going: F.going, updatedAt: body.updatedAt });
+    if (people.length !== F.people.length) { F.people = people.map(p => ({ ...p })); paintPeople(); }
+    dirty = false; try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    info.innerHTML = '<span class="toast">Gestempeld!</span> Je staat op het prikbord. Je kunt je kaart altijd nog aanpassen.';
+  } catch (err) {
+    if (err && (err.code === "invalid_argument")) {
+      canWrite = false;
+      info.textContent = "Opslaan is geweigerd: je hebt alleen leesrechten. Vraag de organisator om je uit te nodigen als bewerker.";
+    } else if (err && err.code === "unavailable") {
+      info.textContent = "De receptie is even onbereikbaar. Probeer het over een paar seconden opnieuw.";
+    } else {
+      info.textContent = "Opslaan lukte niet. Probeer het opnieuw.";
+    }
+  } finally { btn.disabled = false; }
+});
+
+/* ---------- prikbord ---------- */
+let renderToken = 0;
+const median = a => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+const barList = (entries, total) => entries.length ? `<div class="bars">${entries.map(([l, c]) => `<div class="bar"><div class="track"><div class="fill" style="width:${total ? Math.round(c / total * 100) : 0}%"></div><span class="lbl">${esc(l)}</span></div><span class="c">${c}</span></div>`).join("")}</div>` : `<p>Nog niemand ingevuld.</p>`;
+let selectedWeek = null;
+
+function renderPublic() {
+  const board = $("#board");
+  const names = g => (GUESTS[g].names || []).map(String).filter(Boolean);
+  const sorted = Object.keys(GUESTS).sort((a, b) => String(GUESTS[a].updatedAt || "").localeCompare(String(GUESTS[b].updatedAt || "")));
+  const ja = sorted.filter(id => GUESTS[id].going === "ja");
+  const mis = sorted.filter(id => GUESTS[id].going === "misschien");
+  $("#guestCount").textContent = ja.reduce((n, id) => n + names(id).length, 0);
+  if (!ja.length && !mis.length) {
+    board.innerHTML = `<div class="empty"><b>Het prikbord is nog leeg</b>Zodra iemand zijn gastenkaart stempelt, zie je hier wie er meegaat.</div>`;
+    return;
+  }
+  const list = ids => `<div class="guests">${ids.map(id => `<article class="guest"><header><b>${esc(joinNames(names(id)) || "Een kampeerder")}</b>${id === uid ? '<span class="pill misschien">jij</span>' : ""}</header></article>`).join("")}</div>`;
+  board.innerHTML = `
+    <h3 style="font-family:var(--display);font-weight:400;font-size:26px;color:var(--pine);margin:0 0 12px">Gaan mee</h3>
+    ${ja.length ? list(ja) : '<p style="margin:0;color:var(--ink-soft)">Nog niemand heeft ja gezegd.</p>'}
+    ${mis.length ? `<h3 style="font-family:var(--display);font-weight:400;font-size:22px;color:#b07d10;margin:24px 0 12px">Twijfelen nog</h3>${list(mis)}` : ""}`;
+}
+
+async function renderBoard() {
+  if (!isOwner) { renderPublic(); return; }
+  const tok = ++renderToken;
+  const ids = Object.keys(ALL);
+  $("#guestCount").textContent = ids.filter(id => ALL[id].going === "ja").reduce((n, id) => n + normalize(ALL[id]).people.length, 0);
+  const board = $("#board");
+  if (!ids.length) {
+    board.innerHTML = `<div class="empty"><b>Het prikbord is nog leeg</b>Zodra iemand zijn gastenkaart stempelt, verschijnen hier de namen, de favoriete weken en wie er een caravan heeft.</div>`;
+    return;
+  }
+  let P = {};
+  if (user) { try { P = await user.profiles(ids); } catch (e) {} if (tok !== renderToken) return; }
+  const R = ids.map(id => ({ id, ...normalize(ALL[id]) }));
+  const byId = Object.fromEntries(R.map(r => [r.id, r]));
+  const nameOf = id => (joinNames(byId[id].people.map(p => p.n).filter(Boolean)) || (P[id] && P[id].name) || "Een kampeerder");
+  R.forEach(r => { r.adults = r.people.filter(p => !p.kid).length; r.kids = r.people.filter(p => p.kid).length; });
+  const goers = R.filter(r => r.going === "ja" || r.going === "misschien");
+  const ja = R.filter(r => r.going === "ja");
+  const cnt = g => R.filter(r => r.going === g).length;
+  const heads = goers.reduce((s, r) => s + r.people.length, 0);
+  const otherWants = goers.filter(r => r.wantsOther).map(r => r.wantsOther);
+  const mDays = median(goers.map(r => r.days).filter(Number.isFinite));
+  const drives = (ja.length ? ja : goers).map(r => r.driveHours).filter(Number.isFinite);
+  const minDrive = drives.length ? Math.min(...drives) : null;
+  const tally = (key, labels) => {
+    const c = {}; goers.forEach(r => (Array.isArray(r[key]) ? r[key] : [r[key]]).forEach(v => { if (v && labels[v]) c[v] = (c[v] || 0) + 1; }));
+    return Object.entries(c).sort((a, b) => b[1] - a[1]).map(([v, n]) => [labels[v], n]);
+  };
+  const gearOwners = {};
+  goers.forEach(r => (r.gear || []).forEach(g => { if (g !== "luchtbed") (gearOwners[g] ||= []).push(nameOf(r.id)); }));
+
+  // weken
+  const W = {};
+  WEEKS.forEach(w => W[w.key] = { top: [], kan: [], nee: [] });
+  goers.forEach(r => Object.entries(r.weeks || {}).forEach(([k, s]) => { if (W[k] && W[k][s]) W[k][s].push(r.id); }));
+  const jaIds = new Set(ja.map(r => r.id));
+  const ranked = WEEKS.map(w => {
+    const x = W[w.key];
+    return { w, score: x.top.length * 2 + x.kan.length, blockers: x.nee.filter(id => jaIds.has(id)).length, nee: x.nee.length };
+  }).filter(x => x.score > 0).sort((a, b) => a.blockers - b.blockers || b.score - a.score || a.nee - b.nee).slice(0, 4);
+  const maxScore = Math.max(1, ...WEEKS.map(w => W[w.key].top.length * 2 + W[w.key].kan.length));
+
+  const heatCell = w => {
+    const x = W[w.key], sc = x.top.length * 2 + x.kan.length;
+    const a = sc / maxScore;
+    const bg = sc ? `background:color-mix(in srgb, var(--mustard) ${Math.round(15 + a * 85)}%, #fff)` : "";
+    const inner = `<span class="cnt" aria-label="${x.top.length} top, ${x.kan.length} kan, ${x.nee.length} niet"><span>☀︎${x.top.length}</span><span>☁︎${x.kan.length}</span><span>✕${x.nee.length}</span></span>`;
+    return weekCell(w, inner, `style="${bg}" aria-pressed="${selectedWeek === w.key}"`);
+  };
+
+  let whoHTML = "";
+  if (selectedWeek && W[selectedWeek]) {
+    const x = W[selectedWeek], w = WEEKS.find(w => w.key === selectedWeek);
+    const li = (arr, l) => arr.length ? `<li><b>${l}:</b> ${arr.map(id => esc(nameOf(id))).join(", ")}</li>` : "";
+    whoHTML = `<div class="who"><b>Week ${w.n} (${fmtRange(w)})</b><ul>${li(x.top, "Komt top uit") + li(x.kan, "Kan ook") + li(x.nee, "Kan niet") || "<li>Nog niemand heeft deze week ingevuld.</li>"}</ul></div>`;
+  }
+
+  board.innerHTML = `
+  <div class="board-grid">
+    <div class="note"><h3>Wie gaat er mee</h3>
+      <div class="trio"><div><span class="n" style="color:var(--pine)">${cnt("ja")}</span><span class="l">ja</span></div><div><span class="n" style="color:#b07d10">${cnt("misschien")}</span><span class="l">misschien</span></div><div><span class="n" style="color:var(--rain)">${cnt("nee")}</span><span class="l">nee</span></div></div>
+      <p>Samen ${heads} ${heads === 1 ? "persoon" : "personen"}, als iedereen met ja of misschien komt.</p></div>
+    <div class="note"><h3>Hoe lang</h3><div class="big-num">${mDays == null ? "–" : mDays}</div><p>${mDays == null ? "Nog geen antwoorden." : `dagen is het midden van alle wensen (van ${Math.min(...goers.map(r => r.days))} tot ${Math.max(...goers.map(r => r.days))}).`}</p></div>
+    <div class="note"><h3>Hoe ver</h3><div class="big-num">${minDrive == null ? "–" : driveText(minDrive)}</div><p>${minDrive == null ? "Nog geen antwoorden." : `is de kortste maximale rijtijd${ja.length ? " van wie zeker meegaat" : ""}. Daarmee kom je tot: ${esc(driveZone(minDrive))}`}</p>${goers.some(r => r.home) ? `<p><b>Vertrek vanuit:</b> ${[...new Set(goers.map(r => r.home.trim()).filter(Boolean))].map(esc).join(", ")}</p>` : ""}</div>
+    <div class="note"><h3>Nederland of buitenland</h3>${barList(tally("abroad", ABROAD_LABEL), goers.length)}</div>
+    <div class="note"><h3>Kamperen of een huisje?</h3>${barList(tally("vibe", VIBE_LABEL), goers.length)}</div>
+    <div class="note"><h3>Favoriete verblijven</h3>${barList(tally("stays", STAY_LABEL).slice(0, 6), goers.length)}</div>
+    <div class="note"><h3>Wensen voor de camping</h3>${barList(tally("wants", WANT_LABEL).slice(0, 6), goers.length)}${otherWants.length ? `<p><b>Ook genoemd:</b> ${otherWants.map(esc).join(" · ")}</p>` : ""}</div>
+    <div class="note span-2"><h3>Wie heeft wat</h3>${Object.keys(gearOwners).length ? `<div class="bars">${Object.entries(gearOwners).map(([g, ns]) => `<div style="font-size:14px"><b>${esc(GEAR_LABEL[g])}:</b> ${ns.map(esc).join(", ")}</div>`).join("")}</div>` : "<p>Nog niemand heeft eigen spullen opgegeven.</p>"}</div>
+    <div class="note"><h3>Beste weken tot nu toe</h3>${ranked.length ? `<div class="best">${ranked.map(x => `<span class="chip" title="${x.blockers} van wie zeker meegaat kan niet">wk ${x.w.n} · ${fmtRange(x.w)}${x.blockers ? ` · ${x.blockers}✕` : ""}</span>`).join("")}</div><p>Weken waar niemand die zeker meegaat "kan niet" heeft gezegd, staan bovenaan.</p>` : "<p>Nog geen weken ingevuld.</p>"}</div>
+  </div>
+  <div class="note heat" style="margin-top:16px"><h3>Agenda van iedereen</h3>
+    <p style="margin:0 0 10px">Hoe geler, hoe meer mensen die week kunnen. Tik op een week om te zien wie.</p>
+    <div class="cal-scroll"><div class="months" id="heat">${monthsHTML(heatCell)}</div></div>${whoHTML}
+  </div>
+  <h3 style="font-family:var(--display);font-weight:400;font-size:26px;color:var(--pine);margin:26px 0 12px">De gastenlijst</h3>
+  <div class="guests">${R.sort((a, b) => ["ja", "misschien", "nee"].indexOf(a.going) - ["ja", "misschien", "nee"].indexOf(b.going)).map(r => {
+    const party = [r.adults ? `${r.adults} volw.` : "", r.kids ? `${r.kids} kind${r.kids > 1 ? "eren" : ""}` : ""].filter(Boolean).join(", ");
+    const nTop = Object.values(r.weeks || {}).filter(s => s === "top").length;
+    const av = P[r.id] ? `<img alt="" src="${esc(P[r.id].avatarUrl)}">` : "";
+    return `<article class="guest"><header>${av}<b>${esc(nameOf(r.id))}</b><span class="pill ${esc(r.going)}">${esc(GOING_LABEL[r.going] || "?")}</span></header>
+      ${r.going === "nee" ? "" : `<dl><dt>Wie</dt><dd>${esc(party)}</dd><dt>Duur</dt><dd>${esc(r.days)} dagen</dd><dt>Rijden</dt><dd>max ${esc(driveText(r.driveHours))}${r.home ? ` vanuit ${esc(r.home)}` : ""}</dd><dt>Waar</dt><dd>${esc(r.abroad.map(a => ABROAD_LABEL[a]).filter(Boolean).join(", ") || "–")}</dd><dt>Kamperen?</dt><dd>${esc(VIBE_LABEL[r.vibe] || "–")}</dd><dt>Slapen</dt><dd>${esc((r.stays || []).map(s => STAY_LABEL[s]).filter(Boolean).join(", ") || "–")}</dd><dt>Weken</dt><dd>${nTop} top</dd></dl>`}
+      ${EMAILS[r.id] ? `<p style="margin:0;font-family:var(--mono);font-size:13px;overflow-wrap:anywhere">${esc(EMAILS[r.id])}</p>` : ""}
+      ${r.note ? `<q>${esc(r.note)}</q>` : ""}</article>`;
+  }).join("")}</div>`;
+
+  $("#heat").addEventListener("click", e => {
+    const b = e.target.closest(".wk"); if (!b) return;
+    selectedWeek = selectedWeek === b.dataset.k ? null : b.dataset.k; renderBoard();
+  });
+}
+
+/* ---------- inloggen ---------- */
+const reduced = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+let email = null;
+const gate = $("#gate");
+const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+const play = () => {
+  document.body.classList.remove("play");
+  void document.body.offsetWidth;
+  document.body.classList.add("play");
+};
+function showChecked() {
+  const c = $("#checked");
+  if (!email) { c.hidden = true; return; }
+  c.hidden = false;
+  c.innerHTML = `Ingelogd als ${esc(email)} · <button type="button" id="logout">uitloggen</button>`;
+  $("#logout").addEventListener("click", async () => { await auth.signOut(); location.reload(); });
+}
+function openGate() {
+  gate.classList.add("opening");
+  setTimeout(() => { gate.hidden = true; gate.classList.remove("opening"); window.scrollTo(0, 0); play(); }, reduced ? 0 : 1250);
+}
+let codeStep = false;
+function resetGate() {
+  codeStep = false;
+  $("#codeWrap").hidden = true; $("#gateEmail").readOnly = false; $("#gateCode").value = "";
+  $("#gateBtn").textContent = "Stuur inloglink"; $("#gateErr").textContent = "";
+  $("#gateMsg").textContent = "Vul je e-mailadres in. Je krijgt een mail met een inloglink en een code, geen wachtwoord nodig. Alleen de organisatie ziet je adres.";
+  $("#gateEmail").focus();
+}
+$("#gateRestart").addEventListener("click", resetGate);
+$("#gateForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#gateErr"), btn = $("#gateBtn");
+  err.textContent = "";
+  const v = $("#gateEmail").value.trim();
+  if (!codeStep) {
+    if (!isEmail(v)) { err.textContent = "Dat lijkt geen geldig e-mailadres. Controleer het even."; $("#gateEmail").focus(); return; }
+    btn.disabled = true;
+    const res = await auth.signIn(v);
+    btn.disabled = false;
+    if (res && res.error) { err.textContent = "De mail versturen lukte niet. Probeer het over een minuut opnieuw."; return; }
+    if (res && res.demo) { await begin(await auth.session()); openGate(); return; }
+    codeStep = true;
+    $("#codeWrap").hidden = false; $("#gateEmail").readOnly = true; btn.textContent = "Inchecken";
+    $("#gateMsg").textContent = `We hebben een mail gestuurd naar ${v}. Tik op de link in die mail, of typ hieronder de 6 cijfers.`;
+    $("#gateCode").focus();
+    return;
+  }
+  const code = $("#gateCode").value.replace(/\D/g, "");
+  if (code.length !== 6) { err.textContent = "Typ de 6 cijfers uit de mail."; return; }
+  btn.disabled = true;
+  const { data, error } = await auth.verifyCode(v, code);
+  btn.disabled = false;
+  if (error || !data || !data.session) { err.textContent = "Die code klopt niet of is verlopen. Kies 'Ander e-mailadres' om een nieuwe mail te krijgen."; return; }
+  await begin(data.session);
+  openGate();
+});
+
+/* ---------- opstarten ---------- */
+paintForm();
+renderBoard();
+
+let started = false;
+async function begin(session) {
+  if (started || !session) return;
+  started = true;
+  db = store;
+  user = makeUser(session);
+  uid = await user.id();
+  email = session.user.email;
+  showChecked();
+  status("ok", `${DEMO ? "<b>Demo-modus</b>: config.js is nog niet ingevuld, alles blijft in deze browser. " : ""}Welkom! Vul je kaart in en druk onderaan op <b>Stempel mijn kaart</b>.`);
+  isOwner = await user.isOwner();
+  const numberCard = () => {
+    const ids = Object.keys(GUESTS).sort();
+    if (ids.includes(uid)) $("#cardNo").textContent = String(ids.indexOf(uid) + 1).padStart(3, "0");
+  };
+  // eigen kaart terugzetten in het formulier
+  try {
+    const mine = await db.doc("responses/" + uid).get();
+    if (mine.exists && !dirty) { F = normalize(mine.data()); paintForm(); $("#saveInfo").textContent = "Je kaart is opgeslagen. Pas gerust iets aan en stempel opnieuw."; }
+  } catch (e) {}
+  const failed = () => status("warn", "Het prikbord kon niet worden geladen. Herlaad de pagina om het opnieuw te proberen.");
+  db.collection("guests").onSnapshot(snap => {
+    const next = {};
+    snap.docs.forEach(d => { if (d.exists) next[d.id] = d.data(); });
+    GUESTS = next; numberCard();
+    if (!isOwner) renderBoard();
+  }, failed);
+  if (isOwner) {
+    $("#prik-h").textContent = "Het prikbord (alleen voor jou)";
+    $("#prik-sub").textContent = "Jij ziet hier alles wat iedereen heeft ingevuld. De anderen zien alleen wie er meegaat.";
+    db.collection("responses").onSnapshot(snap => {
+      const next = {};
+      snap.docs.forEach(d => { if (d.exists) next[d.id] = d.data(); });
+      ALL = next;
+      renderBoard();
+    }, failed);
+    db.collection("contacts").onSnapshot(snap => {
+      const next = {};
+      snap.docs.forEach(d => { if (d.exists) next[d.id] = d.data().email; });
+      EMAILS = next;
+      renderBoard();
+    }, () => {});
+  }
+}
+
+(async () => {
+  auth.onAuth(s => { if (s && !started) { begin(s); if (!gate.hidden) openGate(); } });
+  const s = await auth.session();
+  if (s) { await begin(s); play(); }
+  else { gate.hidden = false; status("warn", "Log in met je e-mailadres om je kaart in te vullen."); }
+})();
+})();
+</script>
+
+</body>
+</html>
